@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class ImageAdapter (private var context: Context,private var imageList:ArrayList<ImageData>):
+class ImageAdapter (private var context: MainActivity,private var imageList:ArrayList<ImageData>):
 RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
 
 

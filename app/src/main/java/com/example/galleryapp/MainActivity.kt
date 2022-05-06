@@ -12,19 +12,22 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.galleryapp.databinding.ActivityMainBinding
 import java.lang.Exception
 
  class MainActivity : AppCompatActivity() {
 
-    private var imageRecycler:RecyclerView?=null
-     private var progressBar:ProgressBar?=null
+    private  val imageRecycler:RecyclerView by lazy { findViewById(R.id.image_recycler) }
+     private val progressBar:ProgressBar by lazy { findViewById(R.id.recycler_progress) }
      private var allpictures:ArrayList<ImageData>?=null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        imageRecycler = findViewById(R.id.image_recycler)
-        progressBar = findViewById(R.id.recycler_progress)
+
+     private lateinit var binding: ActivityMainBinding
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+         binding = ActivityMainBinding.inflate(layoutInflater)
+         val view = binding.root
+         setContentView(view)
 
         imageRecycler?.layoutManager=GridLayoutManager(this,3)
         imageRecycler?.setHasFixedSize(true)
@@ -48,7 +51,7 @@ import java.lang.Exception
 
             allpictures=getAllImages()
 
-            imageRecycler?.adapter = ImageAdapter(this,allpictures!!)
+            imageRecycler?.adapter = ImageAdapter(this@MainActivity,allpictures!!)
 
             progressBar?.visibility = View.GONE
         }

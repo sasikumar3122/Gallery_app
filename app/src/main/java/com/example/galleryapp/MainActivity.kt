@@ -17,8 +17,12 @@ import java.lang.Exception
 
  class MainActivity : AppCompatActivity() {
 
-    private  val imageRecycler:RecyclerView by lazy { findViewById(R.id.image_recycler) }
-     private val progressBar:ProgressBar by lazy { findViewById(R.id.recycler_progress) }
+    private  val imageRecycler:RecyclerView by lazy {
+        binding.imageRecycler
+    }
+     private val progressBar:ProgressBar by lazy {
+         binding.recyclerProgress
+     }
      private var allpictures:ArrayList<ImageData>?=null
 
 

@@ -19,7 +19,7 @@ RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
         var image : ImageView?=null
 
         init {
-            image=itemView.findViewById(R.id.row_image)
+            image = itemView.findViewById(R.id.row_image)
         }
 
     }

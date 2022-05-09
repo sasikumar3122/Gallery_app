@@ -33,8 +33,8 @@ import java.lang.Exception
          val view = binding.root
          setContentView(view)
 
-        imageRecycler?.layoutManager=GridLayoutManager(this,3)
-        imageRecycler?.setHasFixedSize(true)
+        imageRecycler.layoutManager=GridLayoutManager(this,3)
+        imageRecycler.setHasFixedSize(true)
 
         if (ContextCompat.checkSelfPermission(
                 this@MainActivity,
@@ -51,13 +51,13 @@ import java.lang.Exception
 
         if (allpictures!!.isEmpty())
         {
-            progressBar?.visibility = View.VISIBLE
+            progressBar.visibility = View.VISIBLE
 
             allpictures=getAllImages()
 
-            imageRecycler?.adapter = ImageAdapter(this@MainActivity,allpictures!!)
+            imageRecycler.adapter = ImageAdapter(this@MainActivity,allpictures!!)
 
-            progressBar?.visibility = View.GONE
+            progressBar.visibility = View.GONE
         }
 
 

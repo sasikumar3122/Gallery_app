@@ -7,12 +7,13 @@ class GalleryApplication : Application() {
     var imageList = ArrayList<ImageData>()
     override fun onCreate() {
         super.onCreate()
-        INSTANCE=this
+        instance = this
 
     }
 
     companion object{
-        lateinit var INSTANCE : GalleryApplication
+        private lateinit var instance : GalleryApplication
+        val INSTANCE : GalleryApplication by lazy { instance}
     }
 
 }

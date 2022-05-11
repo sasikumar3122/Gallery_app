@@ -21,12 +21,6 @@ import java.io.IOException
 
 class ImageFullActivity : AppCompatActivity() {
 
-    private var index = 0
-    val img = ArrayList<ImageData>()
-    val image = ImageData()
- var imageUri = image.imgUri
-
-
     var imgFullScreen:ImageView?=null
 
     private val btnShare :FloatingActionButton by lazy {
@@ -88,10 +82,6 @@ class ImageFullActivity : AppCompatActivity() {
 
 
         }
-
-
-
-
 
     }
 

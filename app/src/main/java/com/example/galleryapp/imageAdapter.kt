@@ -1,6 +1,5 @@
 package com.example.galleryapp
 
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class ImageAdapter (private var context: MainActivity,private var imageList:ArrayList<ImageData>):
+class ImageAdapter(private var context: MainActivity, ):
 RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
 
 
@@ -31,7 +30,8 @@ RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val currentImage = imageList[position]
+        val currentImage =GalleryApplication.INSTANCE.imageList[position]
+
         Glide.with(context)
             .load(currentImage.imagePath)
             .apply(RequestOptions().centerCrop())
@@ -39,8 +39,7 @@ RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
 
         holder.image?.setOnClickListener{
             val intent = Intent (context,ImageFullActivity::class.java)
-            intent.putExtra("path",currentImage.imagePath)
-            intent.putExtra("name",currentImage.imageName)
+            intent.putExtra("index",position)
             context.startActivity(intent)
         }
 
@@ -48,6 +47,6 @@ RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
     }
 
     override fun getItemCount(): Int {
-        return imageList.size
+        return GalleryApplication.INSTANCE.imageList.size
     }
 }

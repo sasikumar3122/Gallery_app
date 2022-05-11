@@ -1,6 +1,6 @@
 package com.example.galleryapp
 
-import android.annotation.SuppressLint
+
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -8,22 +8,24 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.ImageSwitcher
 import android.widget.ImageView
-import android.widget.SimpleAdapter
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
-import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.galleryapp.databinding.ActivityImageFullBinding
-import com.example.galleryapp.databinding.ActivityMainBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.IOException
+
 
 class ImageFullActivity : AppCompatActivity() {
+
+    private var index = 0
+    val img = ArrayList<ImageData>()
+    val image = ImageData()
+ var imageUri = image.imgUri
+
 
     var imgFullScreen:ImageView?=null
 
@@ -39,8 +41,11 @@ class ImageFullActivity : AppCompatActivity() {
         setContentView(view)
         imgFullScreen = binding.imageView
 
-        val imagePath = intent.getStringExtra("path")
-        val imageName = intent.getStringExtra("name")
+        val position = intent.getIntExtra("index",0)
+        val currentImage =GalleryApplication.INSTANCE.imageList[position]
+
+        val imagePath = currentImage.imagePath
+        val imageName = currentImage.imageName
 
             supportActionBar?.setTitle(imageName)
             Glide.with(this@ImageFullActivity)
@@ -56,21 +61,43 @@ class ImageFullActivity : AppCompatActivity() {
                 intent.putExtra(Intent.EXTRA_STREAM,bitmapUri)
                            startActivity(Intent.createChooser(intent,"Share inmge"))
 
-
             }
 
-        binding.next.setOnClickListener{
+        binding.btnNext.setOnClickListener{
+
+            if (position >= GalleryApplication.INSTANCE.imageList.size-1)
+                return@setOnClickListener
+            val intent = Intent (this@ImageFullActivity,ImageFullActivity::class.java)
+            intent.putExtra("index",position+1)
+            this@ImageFullActivity.startActivity(intent)
+            this@ImageFullActivity.finish()
+
+
 
         }
 
-        binding.previous.setOnClickListener {
+        binding.btnPrevious.setOnClickListener {
+
+            if (position <=0)
+                return@setOnClickListener
+            val intent = Intent (this@ImageFullActivity,ImageFullActivity::class.java)
+            intent.putExtra("index",position-1)
+            this@ImageFullActivity.startActivity(intent)
+            this@ImageFullActivity.finish()
+
+
 
         }
 
 
 
-        }
+
+
     }
+
+}
+
+
 
 
 

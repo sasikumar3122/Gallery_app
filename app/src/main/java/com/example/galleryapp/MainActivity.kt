@@ -2,7 +2,6 @@
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -23,7 +22,7 @@ import java.lang.Exception
      private val progressBar:ProgressBar by lazy {
          binding.recyclerProgress
      }
-     private var allpictures:ArrayList<ImageData>?=null
+
 
 
      private lateinit var binding: ActivityMainBinding
@@ -47,15 +46,15 @@ import java.lang.Exception
             )
         }
 
-        allpictures = ArrayList()
 
-        if (allpictures!!.isEmpty())
+
+        if (GalleryApplication.INSTANCE.imageList.isEmpty())
         {
             progressBar.visibility = View.VISIBLE
 
-            allpictures=getAllImages()
+            GalleryApplication.INSTANCE.imageList=getAllImages()
 
-            imageRecycler.adapter = ImageAdapter(this@MainActivity,allpictures!!)
+            imageRecycler.adapter = ImageAdapter(this@MainActivity)
 
             progressBar.visibility = View.GONE
         }
@@ -64,7 +63,7 @@ import java.lang.Exception
 
     }
 
-     private fun getAllImages(): ArrayList<ImageData>? {
+     private fun getAllImages(): ArrayList<ImageData> {
 
          val images = ArrayList<ImageData>()
          val allImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -86,4 +85,6 @@ import java.lang.Exception
          }
          return images
      }
+
+
  }

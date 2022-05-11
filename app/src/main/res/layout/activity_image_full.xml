@@ -6,24 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ImageFullActivity">
 
+
     <com.example.galleryapp.ZoomClass
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_Share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="4dp"
         android:backgroundTint="@color/colorAccent"
         android:clickable="true"
         android:focusable="true"
@@ -31,43 +28,45 @@
         app:fabCustomSize="65dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.861"
         app:maxImageSize="35dp"
         app:srcCompat="@drawable/ic_baseline_share_24"
-        tools:ignore="VectorDrawableCompat" />
-
+        tools:ignore="MissingConstraints,VectorDrawableCompat" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/previous"
+        android:id="@+id/btn_previous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="276dp"
         android:backgroundTint="@color/colorAccent"
         android:tint="@android:color/white"
         app:fabCustomSize="65dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/next"
-        app:layout_constraintHorizontal_bias="0.062"
+        app:layout_constraintEnd_toStartOf="@+id/btn_next"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.821"
+        app:layout_constraintVertical_bias="1.0"
         app:maxImageSize="35dp"
         app:srcCompat="@drawable/ic_round_arrow_back"
         tools:ignore="VectorDrawableCompat" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/next"
+        android:id="@+id/btn_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="320dp"
+        android:layout_marginEnd="4dp"
         android:backgroundTint="@color/colorAccent"
         android:tint="@android:color/white"
         app:fabCustomSize="65dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_Share"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.948"
+        app:layout_constraintVertical_bias="1.0"
         app:maxImageSize="35dp"
         app:srcCompat="@drawable/ic_baseline_arrow_forward_24"
-        tools:ignore="VectorDrawableCompat" />
+        tools:ignore="MissingConstraints,VectorDrawableCompat" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

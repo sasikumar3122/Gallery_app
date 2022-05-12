@@ -48,10 +48,10 @@ class ImageFullActivity : AppCompatActivity() {
             binding.btnShare.setOnClickListener {v: View? ->
                 val bitmapDrawable = imgFullScreen!!.drawable as BitmapDrawable
                 val bitmap = bitmapDrawable.bitmap
-                val bitmapPath = MediaStore.Images.Media.insertImage(contentResolver,bitmap,"some title",null)
+                val bitmapPath = MediaStore.Images.Media.insertImage(contentResolver,bitmap,"title",null)
                 val bitmapUri = Uri.parse(bitmapPath)
                 val intent = Intent(Intent.ACTION_SEND)
-                intent.type="image/*"
+                intent.type="image"
                 intent.putExtra(Intent.EXTRA_STREAM,bitmapUri)
                            startActivity(Intent.createChooser(intent,"Share inmge"))
 

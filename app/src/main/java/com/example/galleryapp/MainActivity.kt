@@ -14,57 +14,43 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.galleryapp.databinding.ActivityMainBinding
 import java.lang.Exception
 
+
  class MainActivity : AppCompatActivity() {
 
-    private  val imageRecycler:RecyclerView by lazy {
-        binding.imageRecycler
-    }
-     private val progressBar:ProgressBar by lazy {
-         binding.recyclerProgress
-     }
-
-
-
-     private lateinit var binding: ActivityMainBinding
+     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
      override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)
-         binding = ActivityMainBinding.inflate(layoutInflater)
-         val view = binding.root
-         setContentView(view)
-
-        imageRecycler.layoutManager=GridLayoutManager(this,3)
-        imageRecycler.setHasFixedSize(true)
-
-        if (ContextCompat.checkSelfPermission(
-                this@MainActivity,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) !=PackageManager.PERMISSION_GRANTED
-        ){
-            ActivityCompat.requestPermissions(
-                this@MainActivity,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),101
-            )
-        }
-
-
-
-        if (GalleryApplication.INSTANCE.imageList.isEmpty())
-        {
-            progressBar.visibility = View.VISIBLE
-
-            GalleryApplication.INSTANCE.imageList=getAllImages()
-
-            imageRecycler.adapter = ImageAdapter(this@MainActivity)
-
-            progressBar.visibility = View.GONE
-        }
-
-
-
+         setContentView(binding.root)
+         checkPermission()
+         initUi()
     }
+     private fun initUi(){
+         binding.imageRecycler.layoutManager=GridLayoutManager(this,3)
+         fillImageData()
+     }
+     private fun fillImageData(){
+         if (GalleryApplication.INSTANCE.imageList.isEmpty())
+         {
+             binding.recyclerProgress.visibility = View.VISIBLE
+             GalleryApplication.INSTANCE.imageList = getAllImages()
+             binding.imageRecycler.adapter = ImageAdapter(this@MainActivity)
+             binding.recyclerProgress.visibility = View.GONE
+         }
+     }
 
+     private fun checkPermission(){
+         if (ContextCompat.checkSelfPermission(
+                 this@MainActivity,
+                 Manifest.permission.READ_EXTERNAL_STORAGE
+             ) !=PackageManager.PERMISSION_GRANTED
+         ){
+             ActivityCompat.requestPermissions(
+                 this@MainActivity,
+                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),101
+             )
+         }
+     }
      private fun getAllImages(): ArrayList<ImageData> {
-
          val images = ArrayList<ImageData>()
          val allImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
          val projection = arrayOf(MediaStore.Images.ImageColumns.DATA,MediaStore.Images.Media.DISPLAY_NAME)

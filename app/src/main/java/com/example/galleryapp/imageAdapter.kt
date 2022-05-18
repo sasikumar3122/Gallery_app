@@ -9,18 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class ImageAdapter(private var context: MainActivity, ):
+class ImageAdapter(private var context: MainActivity):
 RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
 
-
     class ImageViewHolder(itemView : View):RecyclerView.ViewHolder(itemView) {
-
-        var image : ImageView?=null
-
-        init {
-            image = itemView.findViewById(R.id.row_image)
-        }
-
+        var image : ImageView? = null
+        init { image = itemView.findViewById(R.id.row_image) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {

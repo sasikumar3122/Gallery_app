@@ -36,8 +36,6 @@ RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
             intent.putExtra("index",position)
             context.startActivity(intent)
         }
-
-
     }
 
     override fun getItemCount(): Int {

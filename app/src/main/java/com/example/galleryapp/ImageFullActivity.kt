@@ -92,10 +92,8 @@ class ImageFullActivity : AppCompatActivity() {
         deleteImage()
         finish()
     }
-
 }
     }
-
     fun moveToNext(){
         binding.btnNext.setOnClickListener{
             if (position >= GalleryApplication.INSTANCE.imageList.size-1)

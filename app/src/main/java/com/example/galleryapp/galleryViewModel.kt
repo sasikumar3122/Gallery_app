@@ -8,18 +8,20 @@ import java.lang.Exception
 
 class galleryViewModel() : ViewModel() {
 
-    lateinit var images: MutableLiveData<String>
+    lateinit var images: MutableLiveData<ImageData>
 
     init {
         images = MutableLiveData()
     }
 
-//    fun loadImages(context: Context): LiveData<String> {
+//    fun loadImages(context: Context): LiveData<ImageData> {
 //        viewModelScope.launch {
-//            images.postValue(galleryRepository.getAllImages(context).toString())
+//            images.postValue(galleryRepository.getAllImages(context))
 //            return images
 //        }
 //    }
+
+
 //    fun loadImages():LiveData() {
 //        viewModelScope.launch {
 //            images.postValue(galleryRepository.getAllImages(GalleryApplication.INSTANCE.applicationContext))
@@ -27,7 +29,7 @@ class galleryViewModel() : ViewModel() {
 //        }
 //    }
 
-        fun getImageLiveDataObserver(): MutableLiveData<String> {
+        fun getImageLiveDataObserver(): MutableLiveData<ImageData> {
             return images
         }
     }

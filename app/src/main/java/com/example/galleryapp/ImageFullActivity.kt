@@ -24,19 +24,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 
 
-class ImageFullActivity(val onClickDelete : (Int)-> Unit,index:Int) : AppCompatActivity() {
+class ImageFullActivity : AppCompatActivity() {
 
     private val btnShare :FloatingActionButton by lazy {
         binding.btnShare
     }
-    private lateinit var myAdapter: ImageAdapter
-    private var mainMenu: Menu? = null
     var position = 0
     private  val binding: ActivityImageFullBinding by lazy { ActivityImageFullBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        getImageData(intent, index = 0)
+        getImageData(intent)
     }
 
     private fun switchImage(position: Int){
@@ -62,17 +60,14 @@ class ImageFullActivity(val onClickDelete : (Int)-> Unit,index:Int) : AppCompatA
 
    GalleryApplication.INSTANCE.imageList.removeAt(position)
         moveToNext()
-        ImageFullActivity(onClickDelete, index = 0)
+        ImageFullActivity()
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        getImageData(intent, index = 0)
+        getImageData(intent)
     }
-     fun onBindViewHolder(holder: ImageAdapter.ImageViewHolder, position: Int) {
-
-    }
-    fun getImageData(intent: Intent?,index:Int) {
+    fun getImageData(intent: Intent?) {
 
       intent?.let {
 
@@ -96,7 +91,6 @@ class ImageFullActivity(val onClickDelete : (Int)-> Unit,index:Int) : AppCompatA
     binding.btnDelete.setOnClickListener {
         deleteImage()
         finish()
-        onClickDelete(index)
     }
 
 }
@@ -110,42 +104,7 @@ class ImageFullActivity(val onClickDelete : (Int)-> Unit,index:Int) : AppCompatA
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        null
-    }
 
-
-    private fun showHideDelete(show: Boolean){
-        mainMenu?.findItem(R.id.btn_delete)?.isVisible = show
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.btn_delete) {
-            deleteItem()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-    fun deleteItem(){
-        val alertBuilder = AlertDialog.Builder(this)
-        alertBuilder.setTitle("Delete")
-        alertBuilder.setMessage("Do you want to delete this item ?")
-        alertBuilder.setPositiveButton("Delete"){_,_ ->
-            if(::myAdapter.isInitialized){
-                myAdapter.deleteSelectedItem()
-                showHideDelete(false)
-                Toast.makeText(this, "Item deleted", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        alertBuilder.setNegativeButton("No"){_,_ ->
-
-        }
-
-        alertBuilder.setNeutralButton("Cancel"){_,_ ->
-
-        }
-        alertBuilder.show()
-    }
 
 
 }

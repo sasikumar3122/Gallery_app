@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.galleryapp.databinding.ActivityMainBinding
 import com.example.galleryapp.galleryRepository.getAllImages
 import java.lang.Exception
@@ -57,20 +56,10 @@ import java.lang.Exception
          }
      }
 
-
-
 //     fun getImgData(): ArrayList<ImageData> {
 //         val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
-//         viewModel.getImageLiveDataObserver().observe(this,Observer<ImageData>{
-//
-//         })
+//         viewModel.getImageLiveDataObserver().observe(this,Observer<ImageData>{})
 //         viewModel.loadImages()
 //         return getImgData()
 //     }
-
-
-     override fun onDestroy() {
-         super.onDestroy()
-         null
-     }
  }

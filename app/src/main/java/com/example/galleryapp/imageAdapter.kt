@@ -27,15 +27,9 @@ import java.util.*
 class ImageAdapter(private var context: MainActivity,private val data: List<ImageData>):
 RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
 
-    private var listData: MutableList<ImageData> = data as MutableList<ImageData>
-    var selectedList = mutableListOf<Int>()
-
     inner class ImageViewHolder(itemView : View):RecyclerView.ViewHolder(itemView) {
         var image : ImageView? = null
         init { image = itemView.findViewById(R.id.row_image) }
-
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
@@ -64,16 +58,6 @@ RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
     }
 
 
-    fun deleteSelectedItem() {
-        if(selectedList.isNotEmpty()){
-            listData.removeAll{item -> item.selected == true}
-        }
-        notifyDataSetChanged()
-    }
 
-    fun deleteItem(index: Int) {
-        listData.removeAt(index)
-        notifyDataSetChanged()
-    }
 
 }

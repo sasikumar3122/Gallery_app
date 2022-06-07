@@ -9,9 +9,14 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.galleryapp.databinding.ActivityMainBinding
+import com.example.galleryapp.galleryRepository.getAllImages
 import java.lang.Exception
 
 
@@ -20,6 +25,7 @@ import java.lang.Exception
      private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
      override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)
+         setTheme(R.style.splashScreenTheme)
          setContentView(binding.root)
          checkPermission()
          initUi()
@@ -32,8 +38,8 @@ import java.lang.Exception
          if (GalleryApplication.INSTANCE.imageList.isEmpty())
          {
              binding.recyclerProgress.visibility = View.VISIBLE
-             GalleryApplication.INSTANCE.imageList = getAllImages()
-             binding.imageRecycler.adapter = ImageAdapter(this@MainActivity)
+//             GalleryApplication.INSTANCE.imageList = getImgData()
+//             binding.imageRecycler.adapter = ImageAdapter(this@MainActivity)
              binding.recyclerProgress.visibility = View.GONE
          }
      }
@@ -50,27 +56,21 @@ import java.lang.Exception
              )
          }
      }
-     private fun getAllImages(): ArrayList<ImageData> {
-         val images = ArrayList<ImageData>()
-         val allImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-         val projection = arrayOf(MediaStore.Images.ImageColumns.DATA,MediaStore.Images.Media.DISPLAY_NAME)
-         var cursor = this@MainActivity.contentResolver.query(allImageUri,projection,null,null,null)
 
-         try {
-             cursor!!.moveToFirst()
-             do {
-                 val image = ImageData()
-                 image.imagePath=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
-                 image.imageName=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME))
-                 images.add(image)
-             }while (cursor.moveToNext())
-             cursor.close()
-         }catch (e:Exception)
-         {
-             e.printStackTrace()
-         }
-         return images
+
+
+//     fun getImgData(): ArrayList<ImageData> {
+//         val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
+//         viewModel.getImageLiveDataObserver().observe(this,Observer<ImageData>{
+//
+//         })
+//         viewModel.loadImages()
+//         return getImgData()
+//     }
+
+
+     override fun onDestroy() {
+         super.onDestroy()
+         null
      }
-
-
  }

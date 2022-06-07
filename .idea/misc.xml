@@ -4,12 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.30925925925925923" />
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/drawable/ic_baseline_cloud_download_24.xml" value="0.30666666666666664" />
+        <entry key="app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.30666666666666664" />
         <entry key="app/src/main/res/drawable/ic_baseline_share_24.xml" value="0.30666666666666664" />
         <entry key="app/src/main/res/drawable/ic_round_arrow_back.xml" value="0.30462962962962964" />
+        <entry key="app/src/main/res/drawable/splash_image.xml" value="0.321025641025641" />
+        <entry key="app/src/main/res/drawable/splash_screen_background.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/activity_image_full.xml" value="0.22807017543859648" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.29128205128205126" />
+        <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/row_custom_recycler_item.xml" value="0.30512820512820515" />
       </map>
     </option>

@@ -24,7 +24,6 @@ import java.lang.Exception
      private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
      override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)
-         setTheme(R.style.splashScreenTheme)
          setContentView(binding.root)
          checkPermission()
          initUi()

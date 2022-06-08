@@ -57,7 +57,6 @@ class ImageFullActivity : AppCompatActivity() {
     }
 
     private fun deleteImage(){
-
    GalleryApplication.INSTANCE.imageList.removeAt(position)
         moveToNext()
         ImageFullActivity()

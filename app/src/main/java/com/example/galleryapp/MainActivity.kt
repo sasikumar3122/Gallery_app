@@ -6,13 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.Adapter
 import android.widget.ProgressBar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.galleryapp.databinding.ActivityMainBinding
 import com.example.galleryapp.galleryRepository.getAllImages
@@ -36,8 +39,8 @@ import java.lang.Exception
          if (GalleryApplication.INSTANCE.imageList.isEmpty())
          {
              binding.recyclerProgress.visibility = View.VISIBLE
-//             GalleryApplication.INSTANCE.imageList = getImgData()
-//             binding.imageRecycler.adapter = ImageAdapter(this@MainActivity)
+             GalleryApplication.INSTANCE.imageList = getImgData()
+             binding.imageRecycler.adapter = ImageAdapter(this@MainActivity)
              binding.recyclerProgress.visibility = View.GONE
          }
      }
@@ -55,10 +58,19 @@ import java.lang.Exception
          }
      }
 
-//     fun getImgData(): ArrayList<ImageData> {
-//         val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
-//         viewModel.getImageLiveDataObserver().observe(this,Observer<ImageData>{})
-//         viewModel.loadImages()
-//         return getImgData()
-//     }
+     fun getImgData(): ArrayList<ImageData> {
+
+         val recyclerView = findViewById<RecyclerView>(R.id.image_recycler)
+         val adapter = ImageAdapter(this)
+         recyclerView.adapter = adapter
+         recyclerView.layoutManager = LinearLayoutManager(this)
+
+         val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
+//         viewModel.getImageLiveDataObserver().observe(this,Observer (){
+//             imageAdapter.setdata(listOf<ImageData>())
+//             imageAdapter.NotifyDataSetChanged()})
+         viewModel.loadImages()
+         return getImgData()
+     }
+
  }

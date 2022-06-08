@@ -24,7 +24,7 @@ import java.io.File
 import java.lang.Exception
 import java.util.*
 
-class ImageAdapter(private var context: MainActivity,private val data: List<ImageData>):
+class ImageAdapter(private var context: MainActivity):
 RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
 
     inner class ImageViewHolder(itemView : View):RecyclerView.ViewHolder(itemView) {

@@ -9,7 +9,6 @@ class GalleryApplication : Application() {
         instance = this
     }
     companion object{
-
         private lateinit var instance : GalleryApplication
         val INSTANCE : GalleryApplication by lazy { instance}
     }

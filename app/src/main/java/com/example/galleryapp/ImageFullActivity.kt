@@ -100,8 +100,4 @@ class ImageFullActivity : AppCompatActivity() {
             switchImage(position+1)
         }
     }
-
-
-
-
 }

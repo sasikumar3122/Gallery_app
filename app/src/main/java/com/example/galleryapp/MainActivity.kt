@@ -25,6 +25,8 @@ import java.lang.Exception
  class MainActivity : AppCompatActivity() {
 
      private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+     val adapter = ImageAdapter(this)
+
      override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)
          setContentView(binding.root)
@@ -39,7 +41,7 @@ import java.lang.Exception
          if (GalleryApplication.INSTANCE.imageList.isEmpty())
          {
              binding.recyclerProgress.visibility = View.VISIBLE
-             GalleryApplication.INSTANCE.imageList = getImgData()
+              getImgData()
              binding.imageRecycler.adapter = ImageAdapter(this@MainActivity)
              binding.recyclerProgress.visibility = View.GONE
          }
@@ -58,19 +60,15 @@ import java.lang.Exception
          }
      }
 
-     fun getImgData(): ArrayList<ImageData> {
-
-         val recyclerView = findViewById<RecyclerView>(R.id.image_recycler)
-         val adapter = ImageAdapter(this)
-         recyclerView.adapter = adapter
-         recyclerView.layoutManager = LinearLayoutManager(this)
+     fun getImgData() {
 
          val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
-//         viewModel.getImageLiveDataObserver().observe(this,Observer (){
-//             imageAdapter.setdata(listOf<ImageData>())
-//             imageAdapter.NotifyDataSetChanged()})
+         viewModel.getImageLiveDataObserver().observe(this,Observer (){
+             GalleryApplication.INSTANCE.imageList = it as ArrayList
+             adapter.notifyDataSetChanged()})
          viewModel.loadImages()
-         return getImgData()
+
+
      }
 
  }

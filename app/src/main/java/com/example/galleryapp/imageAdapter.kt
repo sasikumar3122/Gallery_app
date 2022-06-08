@@ -57,7 +57,4 @@ RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
         return GalleryApplication.INSTANCE.imageList.size
     }
 
-
-
-
 }

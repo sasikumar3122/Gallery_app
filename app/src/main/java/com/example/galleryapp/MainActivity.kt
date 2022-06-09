@@ -1,13 +1,16 @@
  package com.example.galleryapp
 
 import android.Manifest
+import android.Manifest.permission
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.MenuItem
 import android.view.View
 import android.widget.Adapter
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
@@ -20,25 +23,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.galleryapp.databinding.ActivityMainBinding
 import com.example.galleryapp.galleryRepository.getAllImages
 import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
 
 
  class MainActivity : AppCompatActivity() {
-
+     private val PERMISSION_REQUEST_CODE = 100
      private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
      val adapter = ImageAdapter(this)
+     var progressBar: ProgressBar? = null
 
      override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)
          setContentView(binding.root)
          checkPermission()
-         initUi()
-    }
-     private fun initUi(){
-         binding.imageRecycler.layoutManager=GridLayoutManager(this,3)
          fillImageData()
-     }
+//         onRequestPermissionsResult()
+    }
      private fun fillImageData(){
-         if (GalleryApplication.INSTANCE.imageList.isEmpty())
+         binding.imageRecycler.layoutManager=GridLayoutManager(this,3)
+         if (GalleryApplication.INSTANCE.imageList.size == 0)
          {
              binding.recyclerProgress.visibility = View.VISIBLE
               getImgData()
@@ -47,28 +51,78 @@ import java.lang.Exception
          }
      }
 
+///permission requiest
+     override fun onStart() {
+         checkPermission()
+         adapter.notifyDataSetChanged()
+         super.onStart()
+     }
+      fun onRequestPermissionsResult(requestCode: Int,grantResults: IntArray) {
+//          val requestCode: Int?=null
+//          val grantResults: IntArray?=null
+         if (requestCode == PERMISSION_REQUEST_CODE) {
+             if (grantResults!!.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                 Toast.makeText(this, "Fun Gallery", Toast.LENGTH_SHORT).show()
+                 fillImageData()
+             } else {
+                 Toast.makeText(this, "Storage permission required", Toast.LENGTH_SHORT).show()
+//                 checkPermission()
+             }
+         }
+     }
      private fun checkPermission(){
          if (ContextCompat.checkSelfPermission(
                  this@MainActivity,
                  Manifest.permission.READ_EXTERNAL_STORAGE
              ) !=PackageManager.PERMISSION_GRANTED
+             && ContextCompat.checkSelfPermission(
+                 this,
+                 permission.WRITE_EXTERNAL_STORAGE
+             ) != PackageManager.PERMISSION_GRANTED
          ){
              ActivityCompat.requestPermissions(
                  this@MainActivity,
-                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),101
+                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE , permission.WRITE_EXTERNAL_STORAGE),100
              )
+         }else{
+//               onRequestPermissionsResult()
          }
      }
-
+///viewmodel to mainActivity
      fun getImgData() {
-
          val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
          viewModel.getImageLiveDataObserver().observe(this,Observer (){
              GalleryApplication.INSTANCE.imageList = it as ArrayList
              adapter.notifyDataSetChanged()})
          viewModel.loadImages()
+     }
 
+     ////latest image and refresh
+
+     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+         when (item.itemId) {
+             R.id.newer -> {
+                 Collections.reverse(GalleryApplication.INSTANCE.imageList)
+                 adapter.notifyDataSetChanged()
+                 return true
+             }
+             R.id.refresh -> {
+                 progressBar?.setVisibility(View.VISIBLE)
+                 fillImageData()
+                 adapter.notifyDataSetChanged()
+                 progressBar?.setVisibility(View.GONE)
+             }
+         }
+         return super.onOptionsItemSelected(item)
+     }
+
+     override fun onResume() {
+         super.onResume()
+         adapter.notifyDataSetChanged()
+         fillImageData()
 
      }
+
+
 
  }

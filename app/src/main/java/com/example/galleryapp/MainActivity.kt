@@ -6,11 +6,11 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Adapter
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.galleryapp.databinding.ActivityMainBinding
 import com.example.galleryapp.galleryRepository.getAllImages
 import java.lang.Exception
@@ -30,8 +31,10 @@ import kotlin.collections.ArrayList
  class MainActivity : AppCompatActivity() {
      private val PERMISSION_REQUEST_CODE = 100
      private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-     val adapter = ImageAdapter(this)
+     var adapter = ImageAdapter(this)
      var progressBar: ProgressBar? = null
+     var recyclerView: RecyclerView? = null
+     var constraintLayout: ConstraintLayout? = null
 
      override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)
@@ -40,6 +43,7 @@ import kotlin.collections.ArrayList
          fillImageData()
 //         onRequestPermissionsResult()
     }
+
      private fun fillImageData(){
          binding.imageRecycler.layoutManager=GridLayoutManager(this,3)
          if (GalleryApplication.INSTANCE.imageList.size == 0)
@@ -52,21 +56,28 @@ import kotlin.collections.ArrayList
      }
 
 ///permission requiest
-     override fun onStart() {
+     override fun onStart(){
          checkPermission()
          adapter.notifyDataSetChanged()
          super.onStart()
      }
-      fun onRequestPermissionsResult(requestCode: Int,grantResults: IntArray) {
-//          val requestCode: Int?=null
-//          val grantResults: IntArray?=null
+
+     override fun onRequestPermissionsResult(
+         requestCode: Int,
+         permissions: Array<out String>,
+         grantResults: IntArray
+     ) {
+         val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
+         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
          if (requestCode == PERMISSION_REQUEST_CODE) {
-             if (grantResults!!.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+             if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                  Toast.makeText(this, "Fun Gallery", Toast.LENGTH_SHORT).show()
-                 fillImageData()
+                 viewModel.loadImages()
+
              } else {
                  Toast.makeText(this, "Storage permission required", Toast.LENGTH_SHORT).show()
 //                 checkPermission()
+                 fillImageData()
              }
          }
      }
@@ -82,10 +93,9 @@ import kotlin.collections.ArrayList
          ){
              ActivityCompat.requestPermissions(
                  this@MainActivity,
-                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE , permission.WRITE_EXTERNAL_STORAGE),100
+                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE ,
+                     permission.WRITE_EXTERNAL_STORAGE),100
              )
-         }else{
-//               onRequestPermissionsResult()
          }
      }
 ///viewmodel to mainActivity
@@ -99,6 +109,21 @@ import kotlin.collections.ArrayList
 
      ////latest image and refresh
 
+
+
+     override fun onResume() {
+         val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
+         super.onResume()
+         adapter.notifyDataSetChanged()
+         viewModel.loadImages()
+
+     }
+
+     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+         menuInflater.inflate(R.menu.more_options, menu)
+         return true
+     }
+
      override fun onOptionsItemSelected(item: MenuItem): Boolean {
          when (item.itemId) {
              R.id.newer -> {
@@ -106,6 +131,12 @@ import kotlin.collections.ArrayList
                  adapter.notifyDataSetChanged()
                  return true
              }
+             R.id.older -> {
+                 Collections.reverse(GalleryApplication.INSTANCE.imageList)
+                 adapter.notifyDataSetChanged()
+                 return true
+             }
+
              R.id.refresh -> {
                  progressBar?.setVisibility(View.VISIBLE)
                  fillImageData()
@@ -116,13 +147,17 @@ import kotlin.collections.ArrayList
          return super.onOptionsItemSelected(item)
      }
 
-     override fun onResume() {
-         super.onResume()
-         adapter.notifyDataSetChanged()
-         fillImageData()
 
-     }
-
-
+//     fun layOut() {
+//
+//         val emptyView =findViewById<ImageView>(R.id.row_image)
+//         Collections.reverse(GalleryApplication.INSTANCE.imageList)
+//         recyclerView?.setVisibility(View.VISIBLE)
+//         emptyView.visibility = View.GONE
+//         adapter = Adapter(this@MainActivity, GalleryApplication.INSTANCE.imageList)
+//         recyclerView?.setHasFixedSize(true)
+//         recyclerView?.setAdapter(adapter)
+//         constraintLayout = findViewById<ConstraintLayout>(R.id.mainActivity)
+//     }
 
  }

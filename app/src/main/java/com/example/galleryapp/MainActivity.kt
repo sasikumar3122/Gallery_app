@@ -5,6 +5,7 @@ import android.Manifest.permission
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
@@ -26,9 +27,14 @@ import com.example.galleryapp.galleryRepository.getAllImages
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
+import android.widget.Toast
+
+
+
 
 
  class MainActivity : AppCompatActivity() {
+
      private val PERMISSION_REQUEST_CODE = 100
      private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
      var adapter = ImageAdapter(this)
@@ -40,7 +46,7 @@ import kotlin.collections.ArrayList
          setContentView(binding.root)
          checkPermission()
          fillImageData()
-//         onRequestPermissionsResult()
+
     }
 
      private fun fillImageData(){
@@ -57,7 +63,7 @@ import kotlin.collections.ArrayList
 ///permission requiest
      override fun onStart(){
          checkPermission()
-         adapter.notifyDataSetChanged()
+//         adapter.notifyDataSetChanged()
          super.onStart()
      }
 
@@ -77,7 +83,6 @@ import kotlin.collections.ArrayList
 
              } else {
 //                 Toast.makeText(this, "Storage permission required", Toast.LENGTH_SHORT).show()
-//                 binding.empty.visibility=View.VISIBLE
              }
          }
      }
@@ -103,9 +108,9 @@ import kotlin.collections.ArrayList
          val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
          viewModel.getImageLiveDataObserver().observe(this,Observer (){
              GalleryApplication.INSTANCE.imageList = it as ArrayList
-//             adapter.notifyDataSetChanged()
+             adapter.notifyDataSetChanged()
          })
-//         viewModel.loadImages()
+
      }
 
      ////latest image and refresh
@@ -143,4 +148,7 @@ import kotlin.collections.ArrayList
          return super.onOptionsItemSelected(item)
      }
 
+
+
  }
+

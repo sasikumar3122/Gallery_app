@@ -70,13 +70,13 @@ import kotlin.collections.ArrayList
          super.onRequestPermissionsResult(requestCode, permissions, grantResults)
          if (requestCode == PERMISSION_REQUEST_CODE) {
              if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                 Toast.makeText(this, "Display Gallery images", Toast.LENGTH_SHORT).show()
+//                 Toast.makeText(this, "Display Gallery images", Toast.LENGTH_SHORT).show()
                  viewModel.loadImages()
                  fillImageData()
-                 adapter.notifyDataSetChanged()
+//                 adapter.notifyDataSetChanged()
 
              } else {
-                 Toast.makeText(this, "Storage permission required", Toast.LENGTH_SHORT).show()
+//                 Toast.makeText(this, "Storage permission required", Toast.LENGTH_SHORT).show()
 //                 binding.empty.visibility=View.VISIBLE
              }
          }
@@ -103,7 +103,7 @@ import kotlin.collections.ArrayList
          val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
          viewModel.getImageLiveDataObserver().observe(this,Observer (){
              GalleryApplication.INSTANCE.imageList = it as ArrayList
-             adapter.notifyDataSetChanged()
+//             adapter.notifyDataSetChanged()
          })
 //         viewModel.loadImages()
      }
@@ -116,7 +116,7 @@ import kotlin.collections.ArrayList
          val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
          super.onResume()
          viewModel.loadImages()
-         adapter.notifyDataSetChanged()
+//         adapter.notifyDataSetChanged()
 
      }
 
@@ -129,14 +129,14 @@ import kotlin.collections.ArrayList
          when (item.itemId) {
              R.id.newer -> {
                  Collections.reverse(GalleryApplication.INSTANCE.imageList)
-                 adapter.notifyDataSetChanged()
+//                 adapter.notifyDataSetChanged()
                  return true
              }
 
              R.id.refresh -> {
                  progressBar?.setVisibility(View.VISIBLE)
                  fillImageData()
-                 adapter.notifyDataSetChanged()
+//                 adapter.notifyDataSetChanged()
                  progressBar?.setVisibility(View.GONE)
              }
          }

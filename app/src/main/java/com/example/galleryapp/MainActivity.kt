@@ -33,8 +33,7 @@ import kotlin.collections.ArrayList
      private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
      var adapter = ImageAdapter(this)
      var progressBar: ProgressBar? = null
-     var recyclerView: RecyclerView? = null
-     var constraintLayout: ConstraintLayout? = null
+
 
      override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)
@@ -71,13 +70,14 @@ import kotlin.collections.ArrayList
          super.onRequestPermissionsResult(requestCode, permissions, grantResults)
          if (requestCode == PERMISSION_REQUEST_CODE) {
              if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                 Toast.makeText(this, "Fun Gallery", Toast.LENGTH_SHORT).show()
+                 Toast.makeText(this, "Display Gallery images", Toast.LENGTH_SHORT).show()
                  viewModel.loadImages()
+                 fillImageData()
+                 adapter.notifyDataSetChanged()
 
              } else {
                  Toast.makeText(this, "Storage permission required", Toast.LENGTH_SHORT).show()
-//                 checkPermission()
-                 fillImageData()
+//                 binding.empty.visibility=View.VISIBLE
              }
          }
      }
@@ -103,8 +103,9 @@ import kotlin.collections.ArrayList
          val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
          viewModel.getImageLiveDataObserver().observe(this,Observer (){
              GalleryApplication.INSTANCE.imageList = it as ArrayList
-             adapter.notifyDataSetChanged()})
-         viewModel.loadImages()
+             adapter.notifyDataSetChanged()
+         })
+//         viewModel.loadImages()
      }
 
      ////latest image and refresh
@@ -114,8 +115,8 @@ import kotlin.collections.ArrayList
      override fun onResume() {
          val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
          super.onResume()
-         adapter.notifyDataSetChanged()
          viewModel.loadImages()
+         adapter.notifyDataSetChanged()
 
      }
 
@@ -131,11 +132,6 @@ import kotlin.collections.ArrayList
                  adapter.notifyDataSetChanged()
                  return true
              }
-             R.id.older -> {
-                 Collections.reverse(GalleryApplication.INSTANCE.imageList)
-                 adapter.notifyDataSetChanged()
-                 return true
-             }
 
              R.id.refresh -> {
                  progressBar?.setVisibility(View.VISIBLE)
@@ -146,18 +142,5 @@ import kotlin.collections.ArrayList
          }
          return super.onOptionsItemSelected(item)
      }
-
-
-//     fun layOut() {
-//
-//         val emptyView =findViewById<ImageView>(R.id.row_image)
-//         Collections.reverse(GalleryApplication.INSTANCE.imageList)
-//         recyclerView?.setVisibility(View.VISIBLE)
-//         emptyView.visibility = View.GONE
-//         adapter = Adapter(this@MainActivity, GalleryApplication.INSTANCE.imageList)
-//         recyclerView?.setHasFixedSize(true)
-//         recyclerView?.setAdapter(adapter)
-//         constraintLayout = findViewById<ConstraintLayout>(R.id.mainActivity)
-//     }
 
  }

@@ -20,6 +20,8 @@ object galleryRepository {
                 val image = ImageData()
                 image.imagePath=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
                 image.imageName=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME))
+//                image.imageDateTime=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN))
+
                 images.add(image)
             }while (cursor.moveToNext())
             cursor.close()

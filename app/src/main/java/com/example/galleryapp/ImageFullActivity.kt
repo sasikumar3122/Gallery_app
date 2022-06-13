@@ -16,6 +16,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 import kotlin.collections.ArrayList
 import android.R.attr.data
+import android.nfc.Tag
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Adapter
@@ -35,6 +37,7 @@ class ImageFullActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         getImageData(intent)
+
     }
 
     private fun switchImage(position: Int){
@@ -72,6 +75,8 @@ class ImageFullActivity : AppCompatActivity() {
 
      position = intent.getIntExtra("index",0)
     val currentImage =GalleryApplication.INSTANCE.imageList[position]
+
+    Log.d("tag",currentImage.imagePath.toString())
 
     supportActionBar?.setTitle(currentImage.imageName)
     Glide.with(this@ImageFullActivity)

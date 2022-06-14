@@ -1,6 +1,5 @@
 package com.example.galleryapp
 
-import java.time.chrono.ChronoLocalDateTime
 
 class ImageData {
     var imagePath:String?=null

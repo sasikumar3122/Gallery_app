@@ -147,8 +147,8 @@ class ZoomClass : AppCompatImageView, View.OnTouchListener,
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        viewWidth = View.MeasureSpec.getSize(widthMeasureSpec)
-        viewHeight = View.MeasureSpec.getSize(heightMeasureSpec)
+        viewWidth = MeasureSpec.getSize(widthMeasureSpec)
+        viewHeight = MeasureSpec.getSize(heightMeasureSpec)
         if (mSaveScale == 1f) {
 
             // Fit to screen.

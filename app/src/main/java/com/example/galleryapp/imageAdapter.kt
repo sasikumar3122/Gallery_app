@@ -1,28 +1,13 @@
 package com.example.galleryapp
 
-import android.app.Activity
-import android.app.Dialog
-import android.app.PendingIntent
-import android.content.ContentResolver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentSender.SendIntentException
-import android.net.Uri
-import android.provider.BaseColumns
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import java.io.File
-import java.lang.Exception
-import java.util.*
 
 class ImageAdapter(private var context: MainActivity):
 RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){

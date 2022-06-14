@@ -1,29 +1,17 @@
 package com.example.galleryapp
 
 
-import android.R.attr
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
-import android.media.MediaScannerConnection
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.galleryapp.databinding.ActivityImageFullBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
-import kotlin.collections.ArrayList
-import android.R.attr.data
-import android.nfc.Tag
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Adapter
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.RecyclerView
 
 
 class ImageFullActivity : AppCompatActivity() {
@@ -31,7 +19,7 @@ class ImageFullActivity : AppCompatActivity() {
     private val btnShare :FloatingActionButton by lazy {
         binding.btnShare
     }
-    var position = 0
+    private var position = 0
     private  val binding: ActivityImageFullBinding by lazy { ActivityImageFullBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +31,7 @@ class ImageFullActivity : AppCompatActivity() {
     private fun switchImage(position: Int){
         val intent = Intent (this@ImageFullActivity,ImageFullActivity::class.java)
         intent.putExtra("index",position)
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         this@ImageFullActivity.startActivity(intent)
     }
@@ -69,7 +57,7 @@ class ImageFullActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         getImageData(intent)
     }
-    fun getImageData(intent: Intent?) {
+    private fun getImageData(intent: Intent?) {
 
       intent?.let {
 
@@ -78,7 +66,7 @@ class ImageFullActivity : AppCompatActivity() {
 
     Log.d("tag",currentImage.imagePath.toString())
 
-    supportActionBar?.setTitle(currentImage.imageName)
+          supportActionBar?.title = currentImage.imageName
     Glide.with(this@ImageFullActivity)
         .load(currentImage.imagePath)
         .into(binding.imageView)
@@ -98,7 +86,7 @@ class ImageFullActivity : AppCompatActivity() {
     }
 }
     }
-    fun moveToNext(){
+    private fun moveToNext(){
         binding.btnNext.setOnClickListener{
             if (position >= GalleryApplication.INSTANCE.imageList.size-1)
                 return@setOnClickListener

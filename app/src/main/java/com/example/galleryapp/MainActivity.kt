@@ -2,32 +2,23 @@
 
 import android.Manifest
 import android.Manifest.permission
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.galleryapp.databinding.ActivityMainBinding
-import com.example.galleryapp.galleryRepository.getAllImages
-import java.lang.Exception
 import java.util.*
-import kotlin.collections.ArrayList
-import android.widget.Toast
+import android.content.DialogInterface
 
 
 
@@ -35,18 +26,14 @@ import android.widget.Toast
 
  class MainActivity : AppCompatActivity() {
 
-     private val PERMISSION_REQUEST_CODE = 100
      private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-     var adapter = ImageAdapter(this)
-     var progressBar: ProgressBar? = null
-
+     private var adapter = ImageAdapter(this)
+     private var progressBar: ProgressBar? = null
 
      override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)
          setContentView(binding.root)
          checkPermission()
-         fillImageData()
-
     }
 
      private fun fillImageData(){
@@ -60,11 +47,10 @@ import android.widget.Toast
          }
      }
 
-///permission requiest
+///permission request
      override fun onStart(){
-         checkPermission()
-//         adapter.notifyDataSetChanged()
          super.onStart()
+    checkPermission()
      }
 
      override fun onRequestPermissionsResult(
@@ -72,17 +58,14 @@ import android.widget.Toast
          permissions: Array<out String>,
          grantResults: IntArray
      ) {
-         val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
+         val viewModel = ViewModelProviders.of(this)[GalleryViewModel::class.java]
          super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-         if (requestCode == PERMISSION_REQUEST_CODE) {
-             if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-//                 Toast.makeText(this, "Display Gallery images", Toast.LENGTH_SHORT).show()
+         if (requestCode == 100) {
+             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                  viewModel.loadImages()
                  fillImageData()
-//                 adapter.notifyDataSetChanged()
 
              } else {
-//                 Toast.makeText(this, "Storage permission required", Toast.LENGTH_SHORT).show()
              }
          }
      }
@@ -102,11 +85,41 @@ import android.widget.Toast
                      permission.WRITE_EXTERNAL_STORAGE),100
              )
          }
+         else{
+             fillImageData()
+         }
      }
+
+     private fun requestStoragePermission() {
+         if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission.READ_EXTERNAL_STORAGE)) {
+             AlertDialog.Builder(this)
+                 .setTitle("Permission needed")
+                 .setMessage("This permission is needed because of this and that")
+                 .setPositiveButton("ok",
+                     DialogInterface.OnClickListener { dialog, which ->
+                         ActivityCompat.requestPermissions(
+                             this@MainActivity, arrayOf(
+                                 permission.READ_EXTERNAL_STORAGE
+                             ), 100
+                         )
+                     })
+                 .setNegativeButton("cancel",
+                     DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
+                 .create().show()
+         } else {
+             ActivityCompat.requestPermissions(
+                 this,
+                 arrayOf(permission.READ_EXTERNAL_STORAGE),
+                 100
+             )
+         }
+     }
+
 ///viewmodel to mainActivity
-     fun getImgData() {
-         val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
-         viewModel.getImageLiveDataObserver().observe(this,Observer (){
+@SuppressLint("NotifyDataSetChanged")
+fun getImgData() {
+         val viewModel = ViewModelProviders.of(this)[GalleryViewModel::class.java]
+         viewModel.getImageLiveDataObserver().observe(this,Observer {
              GalleryApplication.INSTANCE.imageList = it as ArrayList
              adapter.notifyDataSetChanged()
          })
@@ -118,10 +131,9 @@ import android.widget.Toast
 
 
      override fun onResume() {
-         val viewModel = ViewModelProviders.of(this).get(galleryViewModel::class.java)
+         val viewModel = ViewModelProviders.of(this)[GalleryViewModel::class.java]
          super.onResume()
          viewModel.loadImages()
-//         adapter.notifyDataSetChanged()
 
      }
 
@@ -133,15 +145,13 @@ import android.widget.Toast
      override fun onOptionsItemSelected(item: MenuItem): Boolean {
          when (item.itemId) {
              R.id.newer -> {
-                 Collections.reverse(GalleryApplication.INSTANCE.imageList)
-//                 adapter.notifyDataSetChanged()
+                 GalleryApplication.INSTANCE.imageList.reverse()
                  return true
              }
 
              R.id.refresh -> {
                  progressBar?.setVisibility(View.VISIBLE)
                  fillImageData()
-//                 adapter.notifyDataSetChanged()
                  progressBar?.setVisibility(View.GONE)
              }
          }

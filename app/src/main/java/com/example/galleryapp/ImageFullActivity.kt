@@ -64,13 +64,12 @@ class ImageFullActivity : AppCompatActivity() {
      position = intent.getIntExtra("index",0)
     val currentImage =GalleryApplication.INSTANCE.imageList[position]
 
-    Log.d("tag",currentImage.imagePath.toString())
+//    Log.d("tag",currentImage.imagePath.toString())
 
           supportActionBar?.title = currentImage.imageName
     Glide.with(this@ImageFullActivity)
         .load(currentImage.imagePath)
         .into(binding.imageView)
-
     moveToNext()
     binding.btnPrevious.setOnClickListener {
         if (position <= 0)

@@ -4,10 +4,9 @@ import android.Manifest
 import android.Manifest.permission
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -18,17 +17,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.galleryapp.databinding.ActivityMainBinding
 import java.util.*
-import android.content.DialogInterface
-
-
-
 
 
  class MainActivity : AppCompatActivity() {
 
      private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
      private var adapter = ImageAdapter(this)
-     private var progressBar: ProgressBar? = null
+//     private var progressBar: ProgressBar? = null
+     private val  viewModel  by lazy { ViewModelProviders.of(this)[GalleryViewModel::class.java] }
 
      override fun onCreate(savedInstanceState: Bundle?) {
          super.onCreate(savedInstanceState)
@@ -47,18 +43,18 @@ import android.content.DialogInterface
          }
      }
 
-///permission request
-     override fun onStart(){
-         super.onStart()
-    checkPermission()
+     override fun onResume() {
+         super.onResume()
+         viewModel.loadImages()
      }
+
+//permission request
 
      override fun onRequestPermissionsResult(
          requestCode: Int,
          permissions: Array<out String>,
          grantResults: IntArray
      ) {
-         val viewModel = ViewModelProviders.of(this)[GalleryViewModel::class.java]
          super.onRequestPermissionsResult(requestCode, permissions, grantResults)
          if (requestCode == 100) {
              if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
@@ -66,6 +62,7 @@ import android.content.DialogInterface
                  fillImageData()
 
              } else {
+                 requestStoragePermission()
              }
          }
      }
@@ -94,7 +91,7 @@ import android.content.DialogInterface
          if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission.READ_EXTERNAL_STORAGE)) {
              AlertDialog.Builder(this)
                  .setTitle("Permission needed")
-                 .setMessage("This permission is needed because of this and that")
+                 .setMessage("This permission is needed ")
                  .setPositiveButton("ok",
                      DialogInterface.OnClickListener { dialog, which ->
                          ActivityCompat.requestPermissions(
@@ -102,6 +99,7 @@ import android.content.DialogInterface
                                  permission.READ_EXTERNAL_STORAGE
                              ), 100
                          )
+
                      })
                  .setNegativeButton("cancel",
                      DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
@@ -112,13 +110,13 @@ import android.content.DialogInterface
                  arrayOf(permission.READ_EXTERNAL_STORAGE),
                  100
              )
+
          }
      }
 
 ///viewmodel to mainActivity
 @SuppressLint("NotifyDataSetChanged")
 fun getImgData() {
-         val viewModel = ViewModelProviders.of(this)[GalleryViewModel::class.java]
          viewModel.getImageLiveDataObserver().observe(this,Observer {
              GalleryApplication.INSTANCE.imageList = it as ArrayList
              adapter.notifyDataSetChanged()
@@ -129,34 +127,26 @@ fun getImgData() {
      ////latest image and refresh
 
 
-
-     override fun onResume() {
-         val viewModel = ViewModelProviders.of(this)[GalleryViewModel::class.java]
-         super.onResume()
-         viewModel.loadImages()
-
-     }
-
-     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-         menuInflater.inflate(R.menu.more_options, menu)
-         return true
-     }
-
-     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-         when (item.itemId) {
-             R.id.newer -> {
-                 GalleryApplication.INSTANCE.imageList.reverse()
-                 return true
-             }
-
-             R.id.refresh -> {
-                 progressBar?.setVisibility(View.VISIBLE)
-                 fillImageData()
-                 progressBar?.setVisibility(View.GONE)
-             }
-         }
-         return super.onOptionsItemSelected(item)
-     }
+//     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//         menuInflater.inflate(R.menu.more_options, menu)
+//         return true
+//     }
+//
+//     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//         when (item.itemId) {
+//             R.id.newer -> {
+//                 GalleryApplication.INSTANCE.imageList.reverse()
+//                 return true
+//             }
+//
+//             R.id.refresh -> {
+//                 progressBar?.setVisibility(View.VISIBLE)
+//                 fillImageData()
+//                 progressBar?.setVisibility(View.GONE)
+//             }
+//         }
+//         return super.onOptionsItemSelected(item)
+//     }
 
 
 

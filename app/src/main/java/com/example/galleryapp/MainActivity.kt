@@ -48,6 +48,7 @@ import java.util.*
      override fun onResume() {
          super.onResume()
          viewModel.loadImages()
+         refresh()
      }
 
 //permission request
@@ -96,21 +97,17 @@ import java.util.*
                  .setTitle("Permission needed")
                  .setMessage("This permission is needed ")
                  .setPositiveButton("ok",
-                     DialogInterface.OnClickListener { dialog, which ->
+                     DialogInterface.OnClickListener { _, _ ->
                          ActivityCompat.requestPermissions(
                              this@MainActivity, arrayOf(
                                  permission.READ_EXTERNAL_STORAGE,permission.WRITE_EXTERNAL_STORAGE
                              ), 100
                          )
                      })
-
                  .create().show()
          } else {
-             ActivityCompat.requestPermissions(
-                 this,
-                 arrayOf(permission.READ_EXTERNAL_STORAGE,permission.WRITE_EXTERNAL_STORAGE),
-                 100
-             )
+
+             checkPermission()
          }
      }
 
@@ -120,31 +117,21 @@ import java.util.*
 fun getImgData() {
          viewModel.getImageLiveDataObserver().observe(this,Observer {
              GalleryApplication.INSTANCE.imageList = it as ArrayList
+             GalleryApplication.INSTANCE.imageList.reverse()
              adapter.notifyDataSetChanged()
          })
      }
 
-     ////latest image and refresh
 
-     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-         menuInflater.inflate(R.menu.more_options, menu)
-         return true
+     private fun refresh () {
+          binding.refreshScreen.setOnRefreshListener {
+              progressBar?.visibility = View.VISIBLE
+              fillImageData()
+              progressBar?.visibility = View.GONE
+              binding.refreshScreen.isRefreshing = false
+          }
      }
 
-     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-         when (item.itemId) {
-             R.id.newer -> {
-                 GalleryApplication.INSTANCE.imageList.reverse()
-                 return true
-             }
-             R.id.refresh -> {
-                 progressBar?.visibility = View.VISIBLE
-                 fillImageData()
-                 progressBar?.visibility = View.GONE
-             }
-         }
-         return super.onOptionsItemSelected(item)
-     }
 
  }
 

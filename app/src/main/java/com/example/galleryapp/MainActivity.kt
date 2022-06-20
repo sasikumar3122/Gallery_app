@@ -86,6 +86,7 @@ import java.util.*
          }
          else{
              fillImageData()
+
          }
      }
 
@@ -102,8 +103,7 @@ import java.util.*
                              ), 100
                          )
                      })
-                 .setNegativeButton("cancel",
-                     DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
+
                  .create().show()
          } else {
              ActivityCompat.requestPermissions(
@@ -137,7 +137,6 @@ fun getImgData() {
                  GalleryApplication.INSTANCE.imageList.reverse()
                  return true
              }
-
              R.id.refresh -> {
                  progressBar?.visibility = View.VISIBLE
                  fillImageData()
@@ -146,8 +145,6 @@ fun getImgData() {
          }
          return super.onOptionsItemSelected(item)
      }
-
-
 
  }
 

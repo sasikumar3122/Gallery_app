@@ -7,7 +7,8 @@ import java.lang.Exception
 object GalleryRepository {
 
 
-    suspend fun getAllImages(context: Context): ArrayList<ImageData> {
+     fun getAllImages(context: Context): ArrayList<ImageData> {
+
         val images = ArrayList<ImageData>()
         val allImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(MediaStore.Images.ImageColumns.DATA, MediaStore.Images.Media.DISPLAY_NAME)

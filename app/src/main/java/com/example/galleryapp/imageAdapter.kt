@@ -13,8 +13,7 @@ class ImageAdapter(private var context: MainActivity):
 RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
 
     inner class ImageViewHolder(itemView : View):RecyclerView.ViewHolder(itemView) {
-        var image : ImageView? = null
-        init { image = itemView.findViewById(R.id.row_image) }
+        val image : ImageView = itemView.findViewById(R.id.row_image)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
@@ -29,9 +28,9 @@ RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
         Glide.with(context)
             .load(currentImage.imagePath)
             .apply(RequestOptions().centerCrop())
-            .into(holder.image!!)
+            .into(holder.image)
 
-        holder.image?.setOnClickListener{
+        holder.image.setOnClickListener{
             val intent = Intent (context,ImageFullActivity::class.java)
             intent.putExtra("index",position)
             context.startActivity(intent)

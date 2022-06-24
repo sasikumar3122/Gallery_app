@@ -156,9 +156,6 @@ class ZoomClass : AppCompatImageView, View.OnTouchListener,
         }
     }
 
-    /*
-        Ontouch
-     */
     override fun onTouch(view: View?, event: MotionEvent): Boolean {
         mScaleDetector!!.onTouchEvent(event)
         mGestureDetector!!.onTouchEvent(event)

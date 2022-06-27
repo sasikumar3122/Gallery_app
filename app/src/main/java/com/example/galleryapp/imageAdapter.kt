@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
 class ImageAdapter(private var context: MainActivity):
-RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
+ListAdapter<ImageData,ImageAdapter.ImageViewHolder>(DiffCallBack()){
 
-    inner class ImageViewHolder(itemView : View):RecyclerView.ViewHolder(itemView) {
+    inner class ImageViewHolder(itemView : View):
+        RecyclerView.ViewHolder(itemView) {
         val image : ImageView = itemView.findViewById(R.id.row_image)
     }
 
@@ -36,9 +39,17 @@ RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
             context.startActivity(intent)
         }
     }
-
     override fun getItemCount(): Int {
         return GalleryApplication.INSTANCE.imageList.size
     }
+
+class DiffCallBack : DiffUtil.ItemCallback<ImageData>(){
+
+    override fun areItemsTheSame(oldItem: ImageData, newItem: ImageData) =
+        oldItem.imagePath == newItem.imagePath
+
+    override fun areContentsTheSame(oldItem: ImageData, newItem: ImageData) =
+        oldItem == newItem
+}
 
 }

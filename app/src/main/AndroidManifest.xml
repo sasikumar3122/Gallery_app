@@ -15,10 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".AlbumActivity"
+            android:exported="false" />
+        <activity
             android:name=".SplashScreen"
-            android:theme="@style/splashScreenTheme"
-            android:exported="true">
-
+            android:exported="true"
+            android:theme="@style/splashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,9 +33,7 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>

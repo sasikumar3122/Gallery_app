@@ -3,19 +3,37 @@ package com.example.galleryapp
 import android.Manifest
 import android.Manifest.permission
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.ContentResolver
+import android.content.ContentValues
+import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.galleryapp.databinding.ActivityMainBinding
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 
 
@@ -26,14 +44,21 @@ class MainActivity : AppCompatActivity() {
     private var progressBar: ProgressBar? = null
     private val viewModel by lazy { ViewModelProviders.of(this)[GalleryViewModel::class.java] }
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         checkPermission()
+//        saveImage()
     }
+
+
 
     private fun fillImageData() {
         binding.imageRecycler.layoutManager = GridLayoutManager(this, 3)
+
         if (GalleryApplication.INSTANCE.imageList.size == 0) {
             binding.recyclerProgress.visibility = View.VISIBLE
             getImgData()
@@ -42,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onResume() {
         super.onResume()
         viewModel.loadImages()
@@ -50,6 +76,7 @@ class MainActivity : AppCompatActivity() {
 
 //permission request
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -57,7 +84,8 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 100) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.isNotEmpty() && grantResults[0]
+                == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 viewModel.loadImages()
                 fillImageData()
 
@@ -132,7 +160,6 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
-
-
 }
+
 

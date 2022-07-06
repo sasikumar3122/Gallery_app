@@ -1,23 +1,13 @@
-package com.example.galleryapp
+package com.example.galleryapp.Activity
 
 import android.Manifest
 import android.Manifest.permission
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
-import android.content.ContentResolver
-import android.content.ContentValues
-import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
-import android.database.Cursor
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -27,13 +17,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
+import com.example.galleryapp.Adapters.ImageAdapter
+import com.example.galleryapp.GalleryApplication
+import com.example.galleryapp.GalleryViewModel
 import com.example.galleryapp.databinding.ActivityMainBinding
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 import java.util.*
 
 
@@ -43,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private var adapter = ImageAdapter(this)
     private var progressBar: ProgressBar? = null
     private val viewModel by lazy { ViewModelProviders.of(this)[GalleryViewModel::class.java] }
+    private val viewMod = AlbumImageActivity()
 
 
 
@@ -142,7 +130,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     @SuppressLint("NotifyDataSetChanged")
     fun getImgData() {
         viewModel.getImageLiveDataObserver().observe(this, Observer {
@@ -151,6 +138,7 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         })
     }
+
 
     private fun refresh() {
         binding.refreshScreen.setOnRefreshListener {

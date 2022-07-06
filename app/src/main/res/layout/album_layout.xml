@@ -7,27 +7,27 @@
     tools:context=".Activity.MainActivity"
     android:id="@+id/mainActivity">
 
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:id="@+id/refresh_Screen"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-<!--    <include layout="@layout/list_single_album_layout"></include>-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/image_recycler"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_Screen_Albam"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <!--    <include layout="@layout/list_single_album_layout"></include>-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/albam_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     <ProgressBar
-        android:id="@+id/recycler_progress"
+        android:id="@+id/recyclerView_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

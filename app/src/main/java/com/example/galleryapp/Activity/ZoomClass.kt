@@ -1,4 +1,4 @@
-package com.example.galleryapp
+package com.example.galleryapp.Activity
 
 import android.content.Context
 import android.graphics.Matrix

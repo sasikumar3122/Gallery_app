@@ -1,8 +1,6 @@
-package com.example.galleryapp
+package com.example.galleryapp.Adapters
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,19 +9,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.RequestOptions
+import com.example.galleryapp.GalleryApplication
+import com.example.galleryapp.Activity.ImageFullActivity
+import com.example.galleryapp.Activity.MainActivity
+import com.example.galleryapp.R
+import com.example.galleryapp.models.ImageData
 
 class ImageAdapter(private var context: MainActivity):
-ListAdapter<ImageData,ImageAdapter.ImageViewHolder>(DiffCallBack()){
+ListAdapter<ImageData, ImageAdapter.ImageViewHolder>(DiffCallBack()){
 
     inner class ImageViewHolder(itemView : View):
         RecyclerView.ViewHolder(itemView) {
 
 
         val image : ImageView = itemView.findViewById(R.id.row_image)
-        @SuppressLint("ResourceType")
-        val img : ImageView = itemView.findViewById(R.layout.list_layout)
 
 
 
@@ -41,15 +41,12 @@ ListAdapter<ImageData,ImageAdapter.ImageViewHolder>(DiffCallBack()){
         val view = inflater.inflate(R.layout.row_custom_recycler_item,parent,false)
         return ImageViewHolder(view)
 
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_single_album_layout, parent, false)
-        return ImageViewHolder(v)
+
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
 
-        val currentImage =GalleryApplication.INSTANCE.imageList[position]
-
-
+        val currentImage = GalleryApplication.INSTANCE.imageList[position]
 
         Glide.with(context)
             .load(currentImage.imagePath)
@@ -57,10 +54,12 @@ ListAdapter<ImageData,ImageAdapter.ImageViewHolder>(DiffCallBack()){
             .into(holder.image)
 
         holder.image.setOnClickListener {
-            val intent = Intent (context,ImageFullActivity::class.java)
+            val intent = Intent (context, ImageFullActivity::class.java)
             intent.putExtra("index",position)
             context.startActivity(intent)
         }
+
+
 
     }
     override fun getItemCount(): Int {

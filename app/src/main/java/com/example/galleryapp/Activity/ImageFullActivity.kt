@@ -1,4 +1,4 @@
-package com.example.galleryapp
+package com.example.galleryapp.Activity
 
 
 import android.content.Intent
@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.galleryapp.GalleryApplication
 import com.example.galleryapp.databinding.ActivityImageFullBinding
 import java.util.*
 

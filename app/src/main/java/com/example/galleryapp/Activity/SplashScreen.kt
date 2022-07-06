@@ -1,4 +1,4 @@
-package com.example.galleryapp
+package com.example.galleryapp.Activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -14,7 +14,7 @@ class SplashScreen : AppCompatActivity() {
 
       val time : Long = 100
       Handler().postDelayed({
-            val intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         },time)

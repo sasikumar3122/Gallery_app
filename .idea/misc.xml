@@ -15,8 +15,10 @@
         <entry key="app/src/main/res/drawable/splash_screen_background.xml" value="0.19895833333333332" />
         <entry key="app/src/main/res/layout/activity_album.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_image_full.xml" value="0.22807017543859648" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.29128205128205126" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.20063694267515925" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.28125" />
+        <entry key="app/src/main/res/layout/album_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/folder_img.xml" value="0.165" />
         <entry key="app/src/main/res/layout/list_layout.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/list_single_album_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/row_custom_recycler_item.xml" value="0.30512820512820515" />

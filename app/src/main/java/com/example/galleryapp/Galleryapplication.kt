@@ -1,6 +1,7 @@
 package com.example.galleryapp
 
 import android.app.Application
+import com.example.galleryapp.models.ImageData
 
 class GalleryApplication : Application() {
     var imageList = ArrayList<ImageData>()

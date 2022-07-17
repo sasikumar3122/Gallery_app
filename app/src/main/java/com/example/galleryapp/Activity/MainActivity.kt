@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private var adapter = ImageAdapter(this)
     private var progressBar: ProgressBar? = null
     private val viewModel by lazy { ViewModelProviders.of(this)[GalleryViewModel::class.java] }
-    private val viewMod = AlbumImageActivity()
+
 
 
 
@@ -50,16 +50,27 @@ class MainActivity : AppCompatActivity() {
         if (GalleryApplication.INSTANCE.imageList.size == 0) {
             binding.recyclerProgress.visibility = View.VISIBLE
             getImgData()
-            binding.imageRecycler.adapter = ImageAdapter(this@MainActivity)
+            binding.imageRecycler.adapter = ImageAdapter(this@MainActivity).apply {
+                clickedFolder = this@MainActivity.clickedFolder
+            }
+
             binding.recyclerProgress.visibility = View.GONE
+        }
+    }
+
+    val clickedFolder = object : ImageAdapter.OnFolderSelectListener{
+        override fun onFolderSelected(folderName: String) {
+            viewModel.loadImages(folderName)
+            fillImageData()
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onResume() {
         super.onResume()
-        viewModel.loadImages()
+        viewModel.loadAlbums()
         refresh()
+        adapter.clickedFolder = this@MainActivity.clickedFolder
     }
 
 //permission request
@@ -74,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == 100) {
             if (grantResults.isNotEmpty() && grantResults[0]
                 == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                viewModel.loadImages()
+                viewModel.loadAlbums()
                 fillImageData()
 
             } else {

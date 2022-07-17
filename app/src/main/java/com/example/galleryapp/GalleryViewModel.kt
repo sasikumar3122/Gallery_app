@@ -14,12 +14,20 @@ class GalleryViewModel : ViewModel() {
 
 
 
-    fun loadImages(): MutableLiveData<List<ImageData>> {
+    fun loadImages(filter:String = ""): MutableLiveData<List<ImageData>> {
         viewModelScope.launch {
-            images.postValue(GalleryRepository.getAllImages(GalleryApplication.INSTANCE.applicationContext))
+            images.postValue(GalleryRepository.getAllImages(GalleryApplication.INSTANCE.applicationContext,filter))
         }
         return images
     }
+
+    fun loadAlbums(): MutableLiveData<List<ImageData>> {
+        viewModelScope.launch {
+            images.postValue(GalleryRepository.getAlbumNames(GalleryApplication.INSTANCE.applicationContext))
+        }
+        return images
+    }
+
         fun getImageLiveDataObserver(): MutableLiveData<List<ImageData>> {
             return images
         }

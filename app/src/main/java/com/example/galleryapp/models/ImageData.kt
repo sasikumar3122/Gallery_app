@@ -6,7 +6,7 @@ import android.provider.LiveFolders
 
 
 data class ImageData(
-    var folderNames: String,
+    var folderName: String,
     var imagePath: String,
     var imageName: String,
     var imgCount: Int,

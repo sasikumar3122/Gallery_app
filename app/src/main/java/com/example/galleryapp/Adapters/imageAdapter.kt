@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +26,7 @@ ListAdapter<ImageData, ImageAdapter.ImageViewHolder>(DiffCallBack()){
 
 
         val image : ImageView = itemView.findViewById(R.id.row_image)
+        val title : TextView = itemView.findViewById(R.id.title)
 
 
 
@@ -44,19 +47,31 @@ ListAdapter<ImageData, ImageAdapter.ImageViewHolder>(DiffCallBack()){
 
     }
 
+  var clickedFolder : OnFolderSelectListener? = null
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
 
         val currentImage = GalleryApplication.INSTANCE.imageList[position]
 
-        Glide.with(context)
-            .load(currentImage.imagePath)
-            .apply(RequestOptions().centerCrop())
-            .into(holder.image)
+        if (currentImage.imageName.isNotEmpty()) {
+            holder.title.visibility=View.GONE
+            Glide.with(context)
+                .load(currentImage.imagePath)
+                .apply(RequestOptions().centerCrop())
+                .into(holder.image)
 
-        holder.image.setOnClickListener {
-            val intent = Intent (context, ImageFullActivity::class.java)
-            intent.putExtra("index",position)
-            context.startActivity(intent)
+            holder.image.setOnClickListener {
+                val intent = Intent(context, ImageFullActivity::class.java)
+                intent.putExtra("index", position)
+                context.startActivity(intent)
+            }
+        }else{
+            with(holder.title){
+                visibility = View.VISIBLE
+                text=currentImage.folderName
+            }
+            holder.image.setOnClickListener{
+                clickedFolder?.onFolderSelected(currentImage.folderName)}
+
         }
 
 
@@ -64,6 +79,10 @@ ListAdapter<ImageData, ImageAdapter.ImageViewHolder>(DiffCallBack()){
     }
     override fun getItemCount(): Int {
         return GalleryApplication.INSTANCE.imageList.size
+    }
+
+    interface OnFolderSelectListener{
+        fun onFolderSelected(folderName : String)
     }
 
 class DiffCallBack : DiffUtil.ItemCallback<ImageData>(){

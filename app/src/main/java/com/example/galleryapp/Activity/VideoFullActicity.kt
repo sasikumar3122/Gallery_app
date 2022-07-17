@@ -1,17 +1,18 @@
 package com.example.galleryapp.Activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
-import com.example.galleryapp.GalleryApplication
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.ActivityVideoFullBinding
 
+
+
+
 class VideoFullActicity:AppCompatActivity() {
+
     private var position = 0
     private val binding: ActivityVideoFullBinding by lazy {
         ActivityVideoFullBinding.inflate(

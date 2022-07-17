@@ -25,6 +25,8 @@ class GalleryViewModel : ViewModel() {
         }
         return images
     }
+
+
     fun loadVideos(filter:String = ""): MutableLiveData<List<ImageData>> {
         viewModelScope.launch {
             images.postValue(GalleryRepository.getAllVideos(GalleryApplication.INSTANCE.applicationContext,filter))

@@ -1,7 +1,5 @@
 package com.example.galleryapp.Adapters
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +11,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.galleryapp.Activity.ImageFullActivity
 import com.example.galleryapp.Activity.MainActivity
 import com.example.galleryapp.Activity.VideoFullActicity
 import com.example.galleryapp.GalleryApplication
 import com.example.galleryapp.R
 import com.example.galleryapp.models.ImageData
 
-class VideoAdapter(private var context: MainActivity): RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
+class VideoAdapter(private var context: MainActivity): ListAdapter<ImageData,VideoAdapter.VideoViewHolder>(DiffCallBack()) {
 
     class VideoViewHolder (itemView:View):RecyclerView.ViewHolder(itemView){
         val image : ImageView = itemView.findViewById(R.id.row_image)

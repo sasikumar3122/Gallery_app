@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.galleryapp.Adapters.ImageAdapter
+import com.example.galleryapp.Adapters.VideoAdapter
 import com.example.galleryapp.GalleryApplication
 import com.example.galleryapp.GalleryViewModel
 import com.example.galleryapp.databinding.ActivityMainBinding
@@ -28,12 +29,9 @@ class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private var adapter = ImageAdapter(this)
+    private var videoadapter = VideoAdapter(this)
     private var progressBar: ProgressBar? = null
     private val viewModel by lazy { ViewModelProviders.of(this)[GalleryViewModel::class.java] }
-
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,24 +41,37 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
+fun reload(){
+    binding.recyclerProgress.visibility = View.VISIBLE
+    getImgData()
+//    binding.imageRecycler.adapter = ImageAdapter(this@MainActivity).apply {
+//        clickedFolder = this@MainActivity.clickedFolder
+//    }
+    binding.imageRecycler.adapter = VideoAdapter(this@MainActivity).apply {
+        clickFolder = this@MainActivity.clickFolder
+    }
+    binding.recyclerProgress.visibility = View.GONE
+}
     private fun fillImageData() {
         binding.imageRecycler.layoutManager = GridLayoutManager(this, 3)
 
         if (GalleryApplication.INSTANCE.imageList.size == 0) {
-            binding.recyclerProgress.visibility = View.VISIBLE
-            getImgData()
-            binding.imageRecycler.adapter = ImageAdapter(this@MainActivity).apply {
-                clickedFolder = this@MainActivity.clickedFolder
-            }
-
-            binding.recyclerProgress.visibility = View.GONE
+            reload()
+        }
+        else{
+            reload()
         }
     }
 
-    val clickedFolder = object : ImageAdapter.OnFolderSelectListener{
+//    val clickedFolder = object : ImageAdapter.OnFolderSelectListener{
+//        override fun onFolderSelected(folderName: String) {
+//            viewModel.loadImages(folderName)
+//            fillImageData()
+//        }
+//    }
+    val clickFolder = object : VideoAdapter.OnFolderSelectListeners{
         override fun onFolderSelected(folderName: String) {
-            viewModel.loadImages(folderName)
+            viewModel.loadVideos(folderName)
             fillImageData()
         }
     }
@@ -68,9 +79,11 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onResume() {
         super.onResume()
-        viewModel.loadAlbums()
         refresh()
-        adapter.clickedFolder = this@MainActivity.clickedFolder
+//        viewModel.loadAlbums()
+        viewModel.loadVideoAlbums()
+//        adapter.clickedFolder = this@MainActivity.clickedFolder
+        videoadapter.clickFolder = this@MainActivity.clickFolder
     }
 
 //permission request
@@ -85,7 +98,8 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == 100) {
             if (grantResults.isNotEmpty() && grantResults[0]
                 == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                viewModel.loadAlbums()
+//                viewModel.loadAlbums()
+                viewModel.loadVideoAlbums()
                 fillImageData()
 
             } else {
@@ -154,11 +168,14 @@ class MainActivity : AppCompatActivity() {
     private fun refresh() {
         binding.refreshScreen.setOnRefreshListener {
             progressBar?.visibility = View.VISIBLE
-            fillImageData()
+
             progressBar?.visibility = View.GONE
 
         }
     }
+
+
+
 }
 
 

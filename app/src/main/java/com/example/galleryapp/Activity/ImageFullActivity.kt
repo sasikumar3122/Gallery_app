@@ -55,19 +55,20 @@ class ImageFullActivity : AppCompatActivity() {
         ImageFullActivity()
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         getImageData(intent)
     }
 
-    private fun getImageData(intent: Intent?) {
+    private fun getImageData(intent: Intent) {
 
-        intent?.let {
+        intent.let {
 
             position = intent.getIntExtra("index", 0)
             val currentImage = GalleryApplication.INSTANCE.imageList[position]
 
             supportActionBar?.title = currentImage.imageName
+
             Glide.with(this@ImageFullActivity)
                 .load(currentImage.imagePath)
                 .into(binding.imageView)

@@ -10,11 +10,16 @@ data class ImageData(
     var imagePath: String,
     var imageName: String,
     var imgCount: Int,
-    var title: String
+    var title: String,
+    var videoPath: String,
+    var videoName: String,
+    var videoCount: Int,
+    var videotitle: String
 )
 
 {
-    constructor():this("","","",0,"")
+    constructor():this("","","",0,"","","",0,"")
 }
+
 
 

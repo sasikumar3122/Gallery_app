@@ -36,7 +36,7 @@ ListAdapter<ImageData, ImageAdapter.ImageViewHolder>(DiffCallBack()){
 
     }
 
-//  var clickedFolder : OnFolderSelectListener? = null
+  var clickedFolder : OnFolderSelectListener? = null
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
 
         val currentImage = GalleryApplication.INSTANCE.imageList[position]
@@ -53,14 +53,13 @@ ListAdapter<ImageData, ImageAdapter.ImageViewHolder>(DiffCallBack()){
                 intent.putExtra("index", position)
                 context.startActivity(intent)
             }
-        }
-        else{
+        }else{
             with(holder.title){
                 visibility = View.VISIBLE
                 text=currentImage.folderName
             }
-//            holder.image.setOnClickListener{
-//                clickedFolder?.onFolderSelected(currentImage.folderName)}
+            holder.image.setOnClickListener{
+                clickedFolder?.onFolderSelected(currentImage.folderName)}
 
         }
 

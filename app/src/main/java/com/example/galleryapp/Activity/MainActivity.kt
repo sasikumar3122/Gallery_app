@@ -56,12 +56,12 @@ class MainActivity : AppCompatActivity() {
 fun reload(){
     binding.recyclerProgress.visibility = View.VISIBLE
     getImgData()
-//    binding.imageRecycler.adapter = ImageAdapter(this@MainActivity).apply {
-//        clickedFolder = this@MainActivity.clickedFolder
-//    }
-//    binding.imageRecycler.adapter = VideoAdapter(this@MainActivity).apply {
-//        clickFolder = this@MainActivity.clickFolder
-//    }
+    binding.imageRecycler.adapter = ImageAdapter(this@MainActivity).apply {
+        clickedFolder = this@MainActivity.clickedFolder
+    }
+    binding.imageRecycler.adapter = VideoAdapter(this@MainActivity).apply {
+        clickFolder = this@MainActivity.clickFolder
+    }
     binding.recyclerProgress.visibility = View.GONE
 }
     private fun fillImageData() {
@@ -75,18 +75,18 @@ fun reload(){
         }
     }
 
-//    val clickedFolder = object : ImageAdapter.OnFolderSelectListener{
-//        override fun onFolderSelected(folderName: String) {
-//            viewModel.loadImages(folderName)
-//            fillImageData()
-//        }
-//    }
-//    val clickFolder = object : VideoAdapter.OnFolderSelectListeners{
-//        override fun onFolderSelected(folderName: String) {
-//            viewModel.loadVideos(folderName)
-//            fillImageData()
-//        }
-//    }
+    val clickedFolder = object : ImageAdapter.OnFolderSelectListener{
+        override fun onFolderSelected(folderName: String) {
+            viewModel.loadImages(folderName)
+            fillImageData()
+        }
+    }
+    val clickFolder = object : VideoAdapter.OnFolderSelectListeners{
+        override fun onFolderSelected(folderName: String) {
+            viewModel.loadVideos(folderName)
+            fillImageData()
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onResume() {
@@ -94,8 +94,8 @@ fun reload(){
         refresh()
         viewModel.loadAlbums()
         viewModel.loadVideoAlbums()
-//        adapter.clickedFolder = this@MainActivity.clickedFolder
-//        videoadapter.clickFolder = this@MainActivity.clickFolder
+        adapter.clickedFolder = this@MainActivity.clickedFolder
+        videoadapter.clickFolder = this@MainActivity.clickFolder
     }
 
 //permission request
@@ -186,23 +186,23 @@ fun reload(){
         }
     }
 
-//    override fun onBackPressed() {
-//        val intent = Intent(Intent.ACTION_MAIN)
-//        startActivity(intent)
-//        super.onBackPressed()
-//
-//    }
-//
-//
-//
-//    val tabIconList: ArrayList<Int> = ArrayList()
-//    private val tabIcons = intArrayOf(R.drawable.ic_picker_photos_unselected,
-//        R.drawable.ic_video_unselected)
-//
-//    private val selectedTabIcons = intArrayOf(
-//        R.drawable.ic_picker_photos_selected,
-//        R.drawable.ic_video_selected)
-//
+    override fun onBackPressed() {
+        val intent = Intent(Intent.ACTION_MAIN)
+        startActivity(intent)
+        super.onBackPressed()
+
+    }
+
+
+
+    val tabIconList: ArrayList<Int> = ArrayList()
+    private val tabIcons = intArrayOf(R.drawable.ic_picker_photos_unselected,
+        R.drawable.ic_video_unselected)
+
+    private val selectedTabIcons = intArrayOf(
+        R.drawable.ic_picker_photos_selected,
+        R.drawable.ic_video_selected)
+
 
 
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottomImageView"
+        android:title="@string/all_image_albums"
+        android:icon="@drawable/ic_baseline_image_24"/>
+    <item
+        android:id="@+id/bottomVideoViewtwo"
+        android:title="@string/all_video_albums"
+        android:icon="@drawable/ic_baseline_videocam_24"/>
+</menu>

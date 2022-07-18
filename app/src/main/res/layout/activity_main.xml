@@ -36,16 +36,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TableLayout
-        android:id="@+id/tabs"
+
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#ffffff"
-        android:elevation="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/refresh_Screen"
-        app:tabIndicatorHeight="0dp">
+        android:layout_height="0dp"
+        android:id="@+id/framelayout"
+        android:layout_weight="1"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:id="@+id/bottomnav"
+        app:menu="@menu/bottom_nav"
+        android:background="@color/white"
+        app:itemIconTint="@color/pink"
+        android:backgroundTint="@color/white"
+        app:itemTextColor="@color/black"
+        app:itemTextAppearanceActive="@color/black"
+        app:itemTextAppearanceInactive="@color/yello"
+        />
+</androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
-    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

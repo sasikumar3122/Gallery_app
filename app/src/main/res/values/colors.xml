@@ -5,5 +5,7 @@
     <color name="colorAccent">#000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>
+    <color name="yello">#ff3</color>
+    <color name="pink">#ff39</color>
     <color name="colorRecyclerViewDelete">#F04134</color>
 </resources>

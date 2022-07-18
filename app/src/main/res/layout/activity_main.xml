@@ -36,5 +36,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TableLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffff"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/refresh_Screen"
+        app:tabIndicatorHeight="0dp">
 
+
+
+    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,17 +23,11 @@ ListAdapter<ImageData, ImageAdapter.ImageViewHolder>(DiffCallBack()){
 
     inner class ImageViewHolder(itemView : View):
         RecyclerView.ViewHolder(itemView) {
-        val image : ImageView = itemView.findViewById(R.id.row_image)
+        val image : ImageView = itemView.findViewById(R.id.row_albums)
         val title : TextView = itemView.findViewById(R.id.title)
     }
 
-    override fun onViewRecycled(holder: ImageViewHolder) {
-        super.onViewRecycled(holder)
-    }
 
-    override fun onViewDetachedFromWindow(holder: ImageViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.row_custom_recycler_item,parent,false)
@@ -42,7 +36,7 @@ ListAdapter<ImageData, ImageAdapter.ImageViewHolder>(DiffCallBack()){
 
     }
 
-  var clickedFolder : OnFolderSelectListener? = null
+//  var clickedFolder : OnFolderSelectListener? = null
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
 
         val currentImage = GalleryApplication.INSTANCE.imageList[position]
@@ -59,13 +53,14 @@ ListAdapter<ImageData, ImageAdapter.ImageViewHolder>(DiffCallBack()){
                 intent.putExtra("index", position)
                 context.startActivity(intent)
             }
-        }else{
+        }
+        else{
             with(holder.title){
                 visibility = View.VISIBLE
                 text=currentImage.folderName
             }
-            holder.image.setOnClickListener{
-                clickedFolder?.onFolderSelected(currentImage.folderName)}
+//            holder.image.setOnClickListener{
+//                clickedFolder?.onFolderSelected(currentImage.folderName)}
 
         }
 

@@ -27,19 +27,19 @@ class GalleryViewModel : ViewModel() {
     }
 
 
-    fun loadVideos(filter:String = ""): MutableLiveData<List<ImageData>> {
-        viewModelScope.launch {
-            images.postValue(GalleryRepository.getAllVideos(GalleryApplication.INSTANCE.applicationContext,filter))
-        }
-        return images
-    }
-
-    fun loadVideoAlbums(): MutableLiveData<List<ImageData>> {
-        viewModelScope.launch {
-            images.postValue(GalleryRepository.getVideolbumNames(GalleryApplication.INSTANCE.applicationContext))
-        }
-        return images
-    }
+//    fun loadVideos(filter:String = ""): MutableLiveData<List<ImageData>> {
+//        viewModelScope.launch {
+//            images.postValue(GalleryRepository.getAllVideos(GalleryApplication.INSTANCE.applicationContext,filter))
+//        }
+//        return images
+//    }
+//
+//    fun loadVideoAlbums(): MutableLiveData<List<ImageData>> {
+//        viewModelScope.launch {
+//            images.postValue(GalleryRepository.getVideolbumNames(GalleryApplication.INSTANCE.applicationContext))
+//        }
+//        return images
+//    }
 
         fun getImageLiveDataObserver(): MutableLiveData<List<ImageData>> {
             return images

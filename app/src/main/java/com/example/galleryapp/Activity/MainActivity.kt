@@ -5,6 +5,7 @@ import android.Manifest.permission
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -21,7 +22,9 @@ import com.example.galleryapp.Adapters.ImageAdapter
 import com.example.galleryapp.Adapters.VideoAdapter
 import com.example.galleryapp.GalleryApplication
 import com.example.galleryapp.GalleryViewModel
+import com.example.galleryapp.R
 import com.example.galleryapp.databinding.ActivityMainBinding
+import com.google.android.material.tabs.TabLayout
 import java.util.*
 
 
@@ -32,12 +35,21 @@ class MainActivity : AppCompatActivity() {
     private var videoadapter = VideoAdapter(this)
     private var progressBar: ProgressBar? = null
     private val viewModel by lazy { ViewModelProviders.of(this)[GalleryViewModel::class.java] }
+//    var tabs = binding.tabs
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+                super.onCreate(savedInstanceState)
         setContentView(binding.root)
         checkPermission()
-//        saveImage()
+
+//        setupTabIcons()
+
+
+
+
+
     }
 
 
@@ -47,9 +59,9 @@ fun reload(){
 //    binding.imageRecycler.adapter = ImageAdapter(this@MainActivity).apply {
 //        clickedFolder = this@MainActivity.clickedFolder
 //    }
-    binding.imageRecycler.adapter = VideoAdapter(this@MainActivity).apply {
-        clickFolder = this@MainActivity.clickFolder
-    }
+//    binding.imageRecycler.adapter = VideoAdapter(this@MainActivity).apply {
+//        clickFolder = this@MainActivity.clickFolder
+//    }
     binding.recyclerProgress.visibility = View.GONE
 }
     private fun fillImageData() {
@@ -69,21 +81,21 @@ fun reload(){
 //            fillImageData()
 //        }
 //    }
-    val clickFolder = object : VideoAdapter.OnFolderSelectListeners{
-        override fun onFolderSelected(folderName: String) {
-            viewModel.loadVideos(folderName)
-            fillImageData()
-        }
-    }
+//    val clickFolder = object : VideoAdapter.OnFolderSelectListeners{
+//        override fun onFolderSelected(folderName: String) {
+//            viewModel.loadVideos(folderName)
+//            fillImageData()
+//        }
+//    }
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onResume() {
         super.onResume()
         refresh()
-//        viewModel.loadAlbums()
+        viewModel.loadAlbums()
         viewModel.loadVideoAlbums()
 //        adapter.clickedFolder = this@MainActivity.clickedFolder
-        videoadapter.clickFolder = this@MainActivity.clickFolder
+//        videoadapter.clickFolder = this@MainActivity.clickFolder
     }
 
 //permission request
@@ -98,7 +110,7 @@ fun reload(){
         if (requestCode == 100) {
             if (grantResults.isNotEmpty() && grantResults[0]
                 == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-//                viewModel.loadAlbums()
+                viewModel.loadAlbums()
                 viewModel.loadVideoAlbums()
                 fillImageData()
 
@@ -174,6 +186,23 @@ fun reload(){
         }
     }
 
+//    override fun onBackPressed() {
+//        val intent = Intent(Intent.ACTION_MAIN)
+//        startActivity(intent)
+//        super.onBackPressed()
+//
+//    }
+//
+//
+//
+//    val tabIconList: ArrayList<Int> = ArrayList()
+//    private val tabIcons = intArrayOf(R.drawable.ic_picker_photos_unselected,
+//        R.drawable.ic_video_unselected)
+//
+//    private val selectedTabIcons = intArrayOf(
+//        R.drawable.ic_picker_photos_selected,
+//        R.drawable.ic_video_selected)
+//
 
 
 }

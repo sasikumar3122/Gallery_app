@@ -8,19 +8,16 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/allImages"
+        android:id="@+id/allFolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:text="@string/all_image_albums" />
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh_ImageScreen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:text="@string/allFolder" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/image_recycler"
+            android:id="@+id/folder_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -29,21 +26,4 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:scrollbars="vertical"/>
-
-
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <ProgressBar
-        android:id="@+id/image_Recycler_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
 </androidx.appcompat.widget.LinearLayoutCompat>

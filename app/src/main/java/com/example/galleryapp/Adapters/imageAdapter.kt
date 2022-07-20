@@ -1,12 +1,12 @@
 package com.example.galleryapp.Adapters
 
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,16 +14,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.galleryapp.GalleryApplication
 import com.example.galleryapp.Activity.ImageFullActivity
-import com.example.galleryapp.Activity.MainActivity
 import com.example.galleryapp.R
 import com.example.galleryapp.models.ImageData
 
-class ImageAdapter(private var context: MainActivity):
+class ImageAdapter( val context: Context):
 ListAdapter<ImageData, ImageAdapter.ImageViewHolder>(DiffCallBack()){
 
     inner class ImageViewHolder(itemView : View):
         RecyclerView.ViewHolder(itemView) {
-        val image : ImageView = itemView.findViewById(R.id.row_albums)
+        val image : ImageView = itemView.findViewById(R.id.folderimages)
         val title : TextView = itemView.findViewById(R.id.title)
     }
 
@@ -32,7 +31,6 @@ ListAdapter<ImageData, ImageAdapter.ImageViewHolder>(DiffCallBack()){
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.row_custom_recycler_item,parent,false)
         return ImageViewHolder(view)
-
 
     }
 
@@ -44,6 +42,7 @@ ListAdapter<ImageData, ImageAdapter.ImageViewHolder>(DiffCallBack()){
         if (currentImage.imageName.isNotEmpty()) {
             holder.title.visibility=View.GONE
             Glide.with(context)
+                .asBitmap()
                 .load(currentImage.imagePath)
                 .apply(RequestOptions().centerCrop())
                 .into(holder.image)

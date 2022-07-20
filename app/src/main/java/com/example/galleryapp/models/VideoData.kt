@@ -1,29 +1,20 @@
 package com.example.galleryapp.models
 
-import android.icu.text.CaseMap
 import android.net.Uri
-import android.provider.LiveFolders
-import android.util.Log
 
-
-data class ImageData(
+data class VideoData (
     var folderName: String,
-    var imagePath: String,
-    var imageName: String,
     var title: String,
+    var videoPath: String,
+    var videoName: String,
+    var duration: Long=0,
     var size: String,
     var artUri: Uri
 
-)
+        ){}
 
-data class ImageFolders(
+data class Folders(
     val folderName: String,
     val id:String
 
-)
-
-
-
-
-
-
+    )

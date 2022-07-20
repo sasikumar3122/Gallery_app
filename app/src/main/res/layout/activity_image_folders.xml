@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.VideoFragment"
+    tools:context=".Activity.FoldersActivity"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/allVideos"
+        android:id="@+id/totalimages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:text="@string/all_video_albums" />
+        android:text="total images" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/video_recycler"
+        android:id="@+id/image_recyclerFA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"/>
+
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

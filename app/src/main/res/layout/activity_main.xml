@@ -7,48 +7,38 @@
     tools:context=".Activity.MainActivity"
     android:id="@+id/mainActivity">
 
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:id="@+id/refresh_Screen"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-<!--    <include layout="@layout/list_single_album_layout"></include>-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/image_recycler"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_Screen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent">
+
+        <!--    <include layout="@layout/list_single_album_layout"></include>-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/image_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <ProgressBar
+        android:id="@+id/recycler_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 
-<androidx.appcompat.widget.LinearLayoutCompat
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:id="@+id/framelayout"
-        android:layout_weight="1"/>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:id="@+id/bottomnav"
-        app:menu="@menu/bottom_nav"
-        android:background="@color/white"
-        app:itemIconTint="@color/pink"
-        android:backgroundTint="@color/white"
-        app:itemTextColor="@color/black"
-        app:itemTextAppearanceActive="@color/black"
-        app:itemTextAppearanceInactive="@color/yello"
-        />
-</androidx.appcompat.widget.LinearLayoutCompat>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

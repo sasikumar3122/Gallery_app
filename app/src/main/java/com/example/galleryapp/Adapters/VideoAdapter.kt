@@ -1,84 +1,86 @@
 package com.example.galleryapp.Adapters
 
-import android.content.Context
+
 import android.content.Intent
-import android.text.format.DateUtils
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.galleryapp.Activity.PlayerActivity
+import com.example.galleryapp.Activity.MainActivity
 
+import com.example.galleryapp.GalleryApplication
 import com.example.galleryapp.R
-import com.example.galleryapp.databinding.VideoViewBinding
-import com.example.galleryapp.models.VideoData
+import com.example.galleryapp.models.ImageData
 
-class VideoAdapter(private val context: Context, private var videoList: ArrayList<VideoData>, private val isFolder:Boolean=false)
-    : RecyclerView.Adapter< VideoAdapter.VideoViewFileHolder>() {
+class VideoAdapter(private var context: MainActivity): ListAdapter<ImageData,VideoAdapter.VideoViewHolder>(DiffCallBack()) {
 
-    class VideoViewFileHolder (binding:VideoViewBinding): RecyclerView.ViewHolder(binding.root){
+    class VideoViewHolder (itemView:View):RecyclerView.ViewHolder(itemView){
+        val image : ImageView = itemView.findViewById(R.id.row_albums)
 
-        val title = binding.videoname
-        val folder = binding.foldername
-        val duration = binding.duration
-        val image = binding.videoimg
-        val root = binding.root
+        val title : TextView = itemView.findViewById(R.id.title)
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewFileHolder {
-        return VideoViewFileHolder(VideoViewBinding.inflate(LayoutInflater.from(context),parent,false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.row_custom_recycler_item,parent,false)
+        return VideoViewHolder(view)
+    }
+    interface OnFolderSelectListeners  {
+        fun onFolderSelected(folderName : String)
+    }
+    var clickFolder : OnFolderSelectListeners? = null
+
+    override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
+
+        val currentImage = GalleryApplication.INSTANCE.imageList[position]
+
+        if (currentImage.videoName.isNotEmpty()) {
+            holder.title.visibility=View.GONE
+            Glide.with(context)
+                .load(currentImage.videoPath)
+                .apply(RequestOptions().centerCrop())
+                .into(holder.image)
+
+            holder.image.setOnClickListener {
+                val intent = Intent(context,MainActivity ::class.java)
+                intent.putExtra("index", position)
+                context.startActivity(intent)
+            }
+        }else{
+            with(holder.title){
+                visibility = View.VISIBLE
+                text=currentImage.folderName
+            }
+            holder.image.setOnClickListener{
+                clickFolder?.onFolderSelected(currentImage.folderName)}
+
+        }
+
     }
 
+    class DiffCallBack : DiffUtil.ItemCallback<ImageData>(){
 
+        override fun areItemsTheSame(oldItem: ImageData, newItem: ImageData) =
+            oldItem.videoPath == newItem.videoPath
 
-    override fun onBindViewHolder(holder: VideoViewFileHolder, position: Int) {
-
-
-        holder.title.text = videoList[position].title
-        holder.folder.text = videoList[position].folderName
-        holder.duration.text = DateUtils.formatElapsedTime(videoList[position].duration/1000)
-
-
-        Glide.with(context)
-            .asBitmap()
-            .load(videoList[position].artUri)
-            .apply(RequestOptions().placeholder(R.mipmap.ic_gallery_files).centerCrop())
-            .into(holder.image)
-
-        holder.root.setOnClickListener{
-
-            when {
-                isFolder -> {
-                    sendIntent(pos = position, ref = "FolderActivity")
-            }
-                else -> {
-                    sendIntent(pos = position, ref = "AllVideos")
-                }
-            }
-        }
-
-        }
+        override fun areContentsTheSame(oldItem: ImageData, newItem: ImageData) =
+            oldItem == newItem
+    }
 
     override fun getItemCount(): Int {
-       return videoList.size
+        return GalleryApplication.INSTANCE.imageList.size
     }
 
 
-    private fun sendIntent(pos:Int,ref:String){
-        PlayerActivity.position=pos
-        val intent = Intent(context, PlayerActivity::class.java)
-        intent.putExtra("class",ref)
-        ContextCompat.startActivity(context,intent,null)
-    }
+
+
 }
-
-
-
-
-
-
 
 

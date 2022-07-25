@@ -6,12 +6,12 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.galleryapp.GalleryApplication
 import com.example.galleryapp.databinding.ActivityImageFullBinding
 import com.example.galleryapp.models.ImageData
-import com.example.galleryapp.models.VideoData
 import java.util.*
 
 
@@ -28,12 +28,16 @@ class ImageFullActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        
         getImageData(intent)
 
+//        val position = intent.getIntExtra("positon",0)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title=GalleryApplication.INSTANCE.imageList[position].folderName
 
-
+    }
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        finish()
+        return true
     }
 
     private fun switchImage(position: Int) {
@@ -56,9 +60,12 @@ class ImageFullActivity : AppCompatActivity() {
     }
 
     private fun deleteImage() {
+
+
+
         GalleryApplication.INSTANCE.imageList.removeAt(position)
         moveToNext()
-        ImageFullActivity()
+//        ImageFullActivity()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -71,7 +78,7 @@ class ImageFullActivity : AppCompatActivity() {
         intent.let {
 
             position = intent.getIntExtra("index", 0)
-            val currentImage = MainActivity.imagelist[position]
+            val currentImage = GalleryApplication.INSTANCE.imageList[position]
 
             supportActionBar?.title = currentImage.imageName
 
@@ -93,10 +100,10 @@ class ImageFullActivity : AppCompatActivity() {
             }
         }
     }
-//
+
     private fun moveToNext() {
         binding.btnNext.setOnClickListener {
-            if (position >= MainActivity.imagelist.size - 1)
+            if (position >= GalleryApplication.INSTANCE.imageList.size - 1)
                 return@setOnClickListener
             switchImage(position + 1)
         }
